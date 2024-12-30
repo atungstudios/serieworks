@@ -39,10 +39,16 @@ function renderBooks(filteredBooks) {
         const bookCard = document.createElement('div');
         bookCard.classList.add('book-card');
 
+        // Create category pills
+        const categoryPills = book.categories.map(category => {
+            return `<span class="category-pill ${category.replace(/\s+/g, '')}">${category}</span>`;
+        }).join(''); // Join pills as a single string
+
         bookCard.innerHTML = `
             <img src="${book.image}" alt="${book.title}" />
             <h3>${book.title}</h3>
             <p>${book.description}</p>
+            <div class="category-pills">${categoryPills}</div>
             <a href="${book.amazonLink}" class="amazon-link" target="_blank">View on Amazon</a>
         `;
 

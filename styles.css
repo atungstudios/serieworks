@@ -67,12 +67,12 @@ body {
 }
 
 .category-button:hover {
-    background-color: rgb(19, 26, 34);
+    background-color: rgba(35, 47, 62);
     color: white;
 }
 
 .category-button.active {
-    background-color: rgb(19, 26, 34);
+    background-color: rgba(35, 47, 62);
     color: white;
 }
 
@@ -89,7 +89,7 @@ body {
     display: grid;
     grid-template-columns: repeat(5, 1fr); /* 5 columns for large screens */
     grid-auto-rows: 1fr;
-    gap: 20px;
+    gap: 24px;
     margin-top: 40px;
 }
 
@@ -110,7 +110,6 @@ body {
     width: 100%;
     height: auto;
     max-height: 100%;
-    border-radius: 8px;
     object-fit: cover;
 }
 
@@ -139,8 +138,8 @@ body {
 .amazon-link {
     display: inline-block;
     margin-top: 15px;
-    color: rgb(98, 0, 234);
-    text-decoration: none;
+    color: rgb(35, 47, 62);
+    text-decoration: underline;
     font-weight: bold;
     font-size: 0.9rem; /* Reduced text size */
 }
@@ -163,12 +162,30 @@ body {
     font-size: 0.875rem;
 }
 
+/* Styling for Category Pills */
+.category-pills {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    justify-content: center;
+}
+
+.category-pill {
+    background-color: rgb(19, 26, 34);
+    color: #fff; /* Text color */
+    padding: 3px 6px; /* Smaller padding */
+    border: 1px solid #ccc; /* Grey border */
+    font-size: 0.8rem; /* Smaller font size */
+    text-transform: capitalize;
+}
+
 /* Responsive Design */
 
 /* For medium screens (tablets), display 4 columns */
 @media (max-width: 1024px) {
     .books-container {
-        grid-template-columns: repeat(3, 1fr); /* 4 columns for medium screens */
+        grid-template-columns: repeat(3, 1fr); /* 3 columns for medium screens */
     }
 
     .category-button {
@@ -185,10 +202,10 @@ body {
     }
 }
 
-/* For small screens (smartphones), display 3 columns */
+/* For small screens (smartphones), display 2 columns */
 @media (max-width: 768px) {
     .books-container {
-        grid-template-columns: repeat(2, 1fr); /* 3 columns for small screens */
+        grid-template-columns: repeat(2, 1fr); /* 2 columns for small screens */
     }
 
     .category-button {
@@ -205,7 +222,7 @@ body {
     }
 }
 
-/* For very small screens (mobile phones), display 2 columns */
+/* For very small screens (mobile phones), display 1 column */
 @media (max-width: 480px) {
     .books-container {
         grid-template-columns: 1fr; /* 1 column for very small screens */
