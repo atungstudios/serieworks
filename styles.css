@@ -1,0 +1,136 @@
+/* Basic reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Literata', serif; /* Apply Literata font */
+    background-color: #f4f4f4;
+    color: #333;
+    padding-top: 80px; /* Space for fixed navbar */
+    padding-bottom: 60px; /* Space for fixed footer */
+}
+
+/* Fixed Top Navbar Styling */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: rgb(19, 26, 34);  /* Updated background color */
+    color: white;
+    padding: 15px 20px;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Navbar Logo */
+.navbar .logo h1 {
+    font-size: 24px;
+    font-weight: 500;
+    margin: 0;
+}
+
+/* Search Input in Navbar */
+.navbar .search-input {
+    width: 80%; /* Reduced width */
+    max-width: 300px; /* Set a maximum width to limit its size */
+    padding: 8px 12px; /* Smaller padding for a more compact input */
+    font-size: 1rem; /* Adjust font size */
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.navbar .search-input:focus {
+    border-color: #6200ea;
+}
+
+/* Projects Section */
+#projects {
+    padding: 60px 20px;
+    text-align: center;
+    max-width: 1200px; /* Set max-width for the section */
+    margin: 0 auto; /* Center the section horizontally */
+    min-height: 100vh; /* Ensure section takes at least full viewport height */
+}
+
+/* Projects Container with CSS Grid */
+.projects-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Default 4 columns for large screens */
+    gap: 20px; /* Space between the cards */
+    margin-top: 40px;
+}
+
+/* Individual Project Card Styling */
+.project-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+    text-align: center;
+    overflow: hidden; /* Prevent overflow */
+}
+
+.project-card:hover {
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.project-card img {
+    width: 100%;
+    border-radius: 8px;
+}
+
+.project-card h3 {
+    font-size: 1.5rem;
+    margin-top: 15px;
+}
+
+.project-card p {
+    font-size: 1rem;
+    color: #555;
+}
+
+/* Fixed Footer Styling */
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgb(19, 26, 34);  /* Updated background color */
+    color: white;
+    text-align: center;
+    padding: 10px 20px;  /* Reduced padding to decrease height */
+    z-index: 1000;
+    font-size: 0.875rem; /* Smaller font size to reduce height further */
+}
+
+/* Smooth Scroll Effect */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Media Queries for Responsive Design */
+
+/* Tablets and Medium Screens (e.g., iPads, small laptops) */
+@media (max-width: 1024px) {
+    .projects-container {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns for medium screens */
+    }
+}
+
+/* Small Screens (e.g., Phones, small devices) */
+@media (max-width: 768px) {
+    .projects-container {
+        grid-template-columns: 1fr; /* 1 column for small screens */
+    }
+}
