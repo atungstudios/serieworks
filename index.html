@@ -5,10 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>seriéworks</title> <!-- Update the title here to lowercase -->
-
-    <!-- Google Material Icons -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>serieworks</title>
 
     <!-- Google Fonts for Literata -->
     <link href="https://fonts.googleapis.com/css2?family=Literata&display=swap" rel="stylesheet">
@@ -21,22 +18,34 @@
     <!-- Fixed Top Navbar for Logo and Search Input -->
     <nav class="navbar">
         <div class="logo">
-            <h1>seriéworks</h1> <!-- Update the navbar logo text here to lowercase -->
+            <h1>seriéworks</h1>
         </div>
         <!-- Search Bar in Navbar -->
-        <input type="text" id="project-search" class="search-input" placeholder="Search Projects..." />
+        <input type="text" id="book-search" class="search-input" placeholder="Search Books..." />
     </nav>
 
-    <!-- Projects Section -->
-    <section id="projects" class="section">
-        <div class="projects-container" id="projects-container">
-            <!-- Project cards will be injected here by JavaScript -->
+    <!-- Category Filter Buttons -->
+    <div class="category-filter">
+        <button class="category-button active" data-category="all">All</button>
+        <button class="category-button" data-category="Fiction">Fiction</button>
+        <button class="category-button" data-category="Non-Fiction">Non-Fiction</button>
+        <button class="category-button" data-category="Mystery">Mystery</button>
+        <button class="category-button" data-category="Fantasy">Fantasy</button>
+        <button class="category-button" data-category="Classics">Classics</button>
+        <button class="category-button" data-category="History">History</button>
+        <button class="category-button" data-category="Young Adult">Young Adult</button>
+    </div>
+
+    <!-- Books Section -->
+    <section id="books" class="section">
+        <div class="books-container" id="books-container">
+            <!-- Book cards will be injected here by JavaScript -->
         </div>
     </section>
 
     <!-- Footer -->
     <footer class="footer">
-        <p>&copy; 2024 seriéworks. All Rights Reserved.</p> <!-- Update footer text here to lowercase -->
+        <p>&copy; 2024 seriéworks. All Rights Reserved.</p>
     </footer>
 
     <!-- Link to JavaScript -->

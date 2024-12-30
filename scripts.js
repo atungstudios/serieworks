@@ -1,60 +1,91 @@
-// Array to hold the project data
-const projects = [
+// Array to hold the book data with multiple categories
+const books = [
     {
-        title: "Project 1",
-        description: "Description of Project 1",
+        title: "The Great Gatsby",
+        description: "A classic novel by F. Scott Fitzgerald set in the Jazz Age.",
+        categories: ["Fiction", "Classics"],
+        amazonLink: "https://www.amazon.com/dp/0743273567",
         image: "https://via.placeholder.com/816x1056"
     },
     {
-        title: "Project 2",
-        description: "Description of Project 2",
+        title: "Sapiens: A Brief History of Humankind",
+        description: "An exploration of the history of humans by Yuval Noah Harari.",
+        categories: ["Non-Fiction", "History"],
+        amazonLink: "https://www.amazon.com/dp/0062316095",
         image: "https://via.placeholder.com/816x1056"
     },
     {
-        title: "Project 3",
-        description: "Description of Project 3",
+        title: "The Silent Patient",
+        description: "A psychological thriller by Alex Michaelides.",
+        categories: ["Mystery", "Thriller"],
+        amazonLink: "https://www.amazon.com/dp/1250301696",
+        image: "https://via.placeholder.com/816x1056"
+    },
+    {
+        title: "Harry Potter and the Sorcerer's Stone",
+        description: "The first book in the Harry Potter series by J.K. Rowling.",
+        categories: ["Fantasy", "Young Adult"],
+        amazonLink: "https://www.amazon.com/dp/059035342X",
         image: "https://via.placeholder.com/816x1056"
     }
 ];
 
-// Function to render the projects dynamically
-function renderProjects(filteredProjects) {
-    const projectsContainer = document.getElementById("projects-container");
-    projectsContainer.innerHTML = '';  // Clear any existing content
+// Function to render books
+function renderBooks(filteredBooks) {
+    const booksContainer = document.getElementById('books-container');
+    booksContainer.innerHTML = ''; // Clear existing books
 
-    // Loop through the filtered projects array and generate HTML for each project
-    filteredProjects.forEach(project => {
-        const projectCard = document.createElement("div");
-        projectCard.classList.add("project-card");
+    filteredBooks.forEach(book => {
+        const bookCard = document.createElement('div');
+        bookCard.classList.add('book-card');
 
-        // Add data to the project card
-        projectCard.innerHTML = `
-            <img src="${project.image}" alt="${project.title}" class="project-image">
-            <h3>${project.title}</h3>
-            <p>${project.description}</p>
+        bookCard.innerHTML = `
+            <img src="${book.image}" alt="${book.title}" />
+            <h3>${book.title}</h3>
+            <p>${book.description}</p>
+            <a href="${book.amazonLink}" class="amazon-link" target="_blank">View on Amazon</a>
         `;
 
-        // Append the card to the container
-        projectsContainer.appendChild(projectCard);
+        booksContainer.appendChild(bookCard);
     });
 }
 
-// Call the function to render all projects initially
-document.addEventListener("DOMContentLoaded", () => {
-    renderProjects(projects);  // Display all projects when page loads
+// Call renderBooks on initial load
+document.addEventListener('DOMContentLoaded', () => {
+    renderBooks(books); // Display all books initially
 
     // Set up the search functionality
-    const searchInput = document.getElementById("project-search");
-    searchInput.addEventListener("input", (event) => {
-        const searchTerm = event.target.value.toLowerCase();  // Convert search input to lowercase
+    const searchInput = document.getElementById('book-search');
+    searchInput.addEventListener('input', (event) => {
+        const searchTerm = event.target.value.toLowerCase(); // Convert search input to lowercase
 
-        // Filter the projects based on the search term
-        const filteredProjects = projects.filter(project => {
-            return project.title.toLowerCase().includes(searchTerm) || 
-                   project.description.toLowerCase().includes(searchTerm);
+        const filteredBooks = books.filter(book => {
+            return book.title.toLowerCase().includes(searchTerm) || 
+                   book.description.toLowerCase().includes(searchTerm);
         });
 
-        // Re-render the filtered projects
-        renderProjects(filteredProjects);
+        renderBooks(filteredBooks); // Re-render the filtered books
+    });
+
+    // Set up the category filter
+    const categoryButtons = document.querySelectorAll('.category-button');
+    categoryButtons.forEach(button => {
+        button.addEventListener('click', (event) => {
+            const category = event.target.dataset.category;
+
+            // Update the active class for buttons
+            categoryButtons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Filter books by category (matching any of the selected categories)
+            const filteredBooks = books.filter(book => {
+                if (category === 'all') {
+                    return true; // Show all books if "all" is selected
+                }
+                return book.categories.includes(category); // Show books that have the selected category
+            });
+
+            renderBooks(filteredBooks); // Re-render the filtered books
+        });
     });
 });
