@@ -6,11 +6,19 @@
 }
 
 body {
-    font-family: 'Literata', serif;
-    background-color: #f4f4f4;
+    font-family: 'Helvetica', Arial, sans-serif; /* Updated font */
+    background-color: #f5f5f5;
     color: #333;
     padding-top: 80px;
     padding-bottom: 60px;
+}
+
+/* Remove font-family from specific elements */
+.navbar,
+.category-button,
+.book-card,
+.footer {
+    font-family: inherit; /* Inherits Helvetica from body */
 }
 
 /* Fixed Top Navbar Styling */
@@ -21,7 +29,7 @@ body {
     right: 0;
     background-color: rgb(19, 26, 34);
     color: white;
-    padding: 15px 20px;
+    padding: 6px 20px;
     z-index: 1000;
     display: flex;
     justify-content: space-between;
@@ -29,20 +37,27 @@ body {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+.logo img {
+    width: 200px; /* Adjust as needed */
+    height: auto; /* Maintain aspect ratio */
+}
+
 /* Search Input in Navbar */
 .navbar .search-input {
-    width: 80%;
-    max-width: 300px;
-    padding: 8px 12px;
+    background-color: #ddd;
+    margin: 0 16px;
+    width: 100%;
+    max-width: 320px;
+    padding: 8px 20px;
     font-size: 1rem;
-    border-radius: 4px;
+    border-radius: 24px;
     border: 1px solid #ddd;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     outline: none;
 }
 
 .navbar .search-input:focus {
-    border-color: #6200ea;
+    background-color: #fff;
 }
 
 /* Category Filter */
@@ -50,29 +65,30 @@ body {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    margin: 20px 0;
+    margin-top: 16px;
+    margin-bottom: 0;
 }
 
 .category-button {
-    background-color: #f4f4f4;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 10px 15px;
+    background-color: #fff;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 24px;
     font-size: 1rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    margin: 5px;
+    margin: 8px;
     white-space: nowrap;
-    font-weight: bold;
+    font-weight: 600;
 }
 
 .category-button:hover {
-    background-color: rgba(35, 47, 62);
+    background-color: rgb(55, 71, 90);
     color: white;
 }
 
 .category-button.active {
-    background-color: rgba(35, 47, 62);
+    background-color: rgb(55, 71, 90);
     color: white;
 }
 
@@ -87,43 +103,42 @@ body {
 /* Books Container with Masonry Layout */
 .books-container {
     display: grid;
-    grid-template-columns: repeat(5, 1fr); /* 5 columns for large screens */
+    grid-template-columns: repeat(4, 1fr); /* 5 columns for large screens */
     grid-auto-rows: 1fr;
     gap: 24px;
-    margin-top: 40px;
+    margin-top: 24px;
 }
 
 /* Individual Book Card Styling */
 .book-card {
     background-color: #fff;
-    padding: 15px; /* Reduced padding for a more compact layout */
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    text-align: center;
+    padding: 16px; /* Reduced padding for a more compact layout */
+    text-align: left;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     transition: all 0.3s ease;
+    border: 1px solid #ddd;
 }
 
 .book-card img {
     width: 100%;
     height: auto;
-    max-height: 100%;
+    max-height: 400px; /* Adjust as per your design */
     object-fit: cover;
 }
 
 .book-card h3 {
-    font-size: 1rem; /* Reduced text size */
-    margin-top: 12px;
+    font-size: 0.9rem; /* Reduced text size */
     transition: font-size 0.3s ease;
+    margin-top: 8px;
 }
 
 .book-card p {
-    font-size: 0.8rem; /* Reduced text size */
-    color: #555;
-    margin: 10px 0;
+    font-size: 0.9rem; /* Reduced text size */
+    color: #888;
     transition: font-size 0.3s ease;
+    line-height: 1.4;
 }
 
 /* Line Clamping for Description */
@@ -137,15 +152,12 @@ body {
 /* Amazon Link Styling */
 .amazon-link {
     display: inline-block;
-    margin-top: 15px;
-    color: rgb(35, 47, 62);
+    margin-top: 12px;
+    color: rgb(55, 71, 90);
     text-decoration: underline;
     font-weight: bold;
-    font-size: 0.9rem; /* Reduced text size */
-}
-
-.amazon-link:hover {
-    text-decoration: underline;
+    font-size: 1rem; /* Reduced text size */
+    text-align: center;
 }
 
 /* Footer */
@@ -154,7 +166,8 @@ body {
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: rgb(19, 26, 34);
+    background-color: rgb(19, 26, 34)
+    ;
     color: white;
     text-align: center;
     padding: 10px 20px;
@@ -164,15 +177,15 @@ body {
 
 /* Styling for Category Pills */
 .category-pills {
-    margin-top: 10px;
     display: flex;
     flex-wrap: wrap;
     gap: 5px;
-    justify-content: center;
+    justify-content: left;
+    margin-top: 8px;
 }
 
 .category-pill {
-    background-color: rgb(19, 26, 34);
+    background-color: rgb(55, 71, 90);
     color: #fff; /* Text color */
     padding: 3px 6px; /* Smaller padding */
     border: 1px solid #ccc; /* Grey border */
@@ -189,16 +202,16 @@ body {
     }
 
     .category-button {
-        font-size: 0.9rem;
-        padding: 8px 12px;
+        font-size: 1rem;
+        padding: 8px 16px;
     }
 
     .book-card h3 {
-        font-size: 1rem; /* Smaller title font for medium screens */
+        font-size: 1.1rem; /* Smaller title font for medium screens */
     }
 
     .book-card p {
-        font-size: 0.8rem; /* Smaller description font for medium screens */
+        font-size: 0.9rem; /* Smaller description font for medium screens */
     }
 }
 
@@ -209,8 +222,8 @@ body {
     }
 
     .category-button {
-        font-size: 0.8rem;
-        padding: 6px 10px;
+        font-size: 0.9rem;
+        padding: 8px 16px;
     }
 
     .book-card h3 {
@@ -229,8 +242,8 @@ body {
     }
 
     .category-button {
-        font-size: 0.75rem;
-        padding: 5px 10px;
+        font-size: 0.9rem;
+        padding: 8px 16px;
     }
 
     .book-card h3 {

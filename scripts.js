@@ -1,34 +1,50 @@
 // Array to hold the book data with multiple categories
 const books = [
     {
-        title: "The Great Gatsby",
-        description: "A classic novel by F. Scott Fitzgerald set in the Jazz Age.",
-        categories: ["Fiction", "Classics"],
-        amazonLink: "https://www.amazon.com/dp/0743273567",
-        image: "https://via.placeholder.com/816x1056"
+        title: "Travel Guide: Shenzhen, China",
+        description: "Embark on the ultimate adventure with The Global Traveler, your passport to the most awe-inspiring destinations across the globe. Whether you're a seasoned explorer or a first-time traveler, this comprehensive guide will lead you through the world's most breathtaking landscapes, vibrant cities, and hidden gems. From the ancient wonders of the world to modern marvels, this book offers insider tips, detailed itineraries, and local secrets that will help you navigate your journey like a pro.",
+        categories: ["Non-Fiction", "Travel"],
+        amazonLink: "https://www.amazon.com",
+        image: "https://via.placeholder.com/400x640"
     },
     {
-        title: "Sapiens: A Brief History of Humankind",
-        description: "An exploration of the history of humans by Yuval Noah Harari.",
-        categories: ["Non-Fiction", "History"],
-        amazonLink: "https://www.amazon.com/dp/0062316095",
-        image: "https://via.placeholder.com/816x1056"
+        title: "Baby's First Colors",
+        description: "A delightful and engaging picture book designed to introduce your little one to the colorful world around them.",
+        categories: ["Fiction", "Picture Book (Ages 0-4)"],
+        amazonLink: "https://www.amazon.com",
+        image: "https://via.placeholder.com/400x640"
     },
     {
-        title: "The Silent Patient",
-        description: "A psychological thriller by Alex Michaelides.",
-        categories: ["Mystery", "Thriller"],
-        amazonLink: "https://www.amazon.com/dp/1250301696",
-        image: "https://via.placeholder.com/816x1056"
+        title: "Effortless Eats: Fast Recipes",
+        description: "Packed with simple, quick-to-prepare recipes, this cookbook is perfect for anyone juggling a busy schedule but still craving delicious and nutritious meals.",
+        categories: ["Non-Fiction", "Food"],
+        amazonLink: "https://www.amazon.com",
+        image: "https://via.placeholder.com/400x640"
     },
     {
-        title: "Harry Potter and the Sorcerer's Stone",
-        description: "The first book in the Harry Potter series by J.K. Rowling.",
-        categories: ["Fantasy", "Young Adult"],
-        amazonLink: "https://www.amazon.com/dp/059035342X",
-        image: "https://via.placeholder.com/816x1056"
+        title: "Mindful Health: Strategies for a Stronger, Healthier You",
+        description: "Discover the powerful connection between mindfulness and well-being, and learn how small, intentional changes can lead to lasting improvements in your health.",
+        categories: ["Non-Fiction", "Health"],
+        amazonLink: "https://www.amazon.com",
+        image: "https://via.placeholder.com/400x640"
+    },
+    {
+        title: "The Talking Tree",
+        description: "In The Talking Tree, young readers are introduced to a magical forest where anything is possible. When Emma and her little brother Max wander into the woods near their home, they stumble upon an ancient tree that can talk!",
+        categories: ["Fiction", "Early Reader Book (Ages 5-7)"],
+        amazonLink: "https://www.amazon.com",
+        image: "https://via.placeholder.com/400x640"
+    },
+    {
+        title: "The Time Traveler's Notebook",
+        description: "When 12-year-old Ellie discovers a dusty, old notebook hidden in her grandmother's attic, she unknowingly unlocks the key to an extraordinary adventure. ",
+        categories: ["Fiction", "Chapter Book (Ages 6-9)"],
+        amazonLink: "https://www.amazon.com",
+        image: "https://via.placeholder.com/400x640"
     }
 ];
+
+
 
 // Function to render books
 function renderBooks(filteredBooks) {
@@ -46,9 +62,9 @@ function renderBooks(filteredBooks) {
 
         bookCard.innerHTML = `
             <img src="${book.image}" alt="${book.title}" />
+            <div class="category-pills">${categoryPills}</div>
             <h3>${book.title}</h3>
             <p>${book.description}</p>
-            <div class="category-pills">${categoryPills}</div>
             <a href="${book.amazonLink}" class="amazon-link" target="_blank">View on Amazon</a>
         `;
 

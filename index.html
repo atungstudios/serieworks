@@ -7,6 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>serieworks</title>
 
+    <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
+
     <!-- Google Fonts for Literata -->
     <link href="https://fonts.googleapis.com/css2?family=Literata&display=swap" rel="stylesheet">
 
@@ -17,9 +19,9 @@
 <body>
     <!-- Fixed Top Navbar for Logo and Search Input -->
     <nav class="navbar">
-        <div class="logo">
-            <h1>seriéworks</h1>
-        </div>
+        <a href="index.html" class="logo">
+            <img src="assets/logo-dark.svg" alt="seriéworks logo" class="logo-image" />
+        </a>
         <!-- Search Bar in Navbar -->
         <input type="text" id="book-search" class="search-input" placeholder="Search Books..." />
     </nav>
@@ -27,14 +29,17 @@
     <!-- Category Filter Buttons -->
     <div class="category-filter">
         <button class="category-button active" data-category="all">All</button>
-        <button class="category-button" data-category="Fiction">Fiction</button>
         <button class="category-button" data-category="Non-Fiction">Non-Fiction</button>
-        <button class="category-button" data-category="Mystery">Mystery</button>
-        <button class="category-button" data-category="Fantasy">Fantasy</button>
-        <button class="category-button" data-category="Classics">Classics</button>
-        <button class="category-button" data-category="History">History</button>
-        <button class="category-button" data-category="Young Adult">Young Adult</button>
+        <button class="category-button" data-category="Travel">Travel</button>
+        <button class="category-button" data-category="Food">Food</button>
+        <button class="category-button" data-category="Health">Health</button>
+        <button class="category-button" data-category="Fiction">Fiction</button>
+        <button class="category-button" data-category="Picture Book (Ages 0-4)">Picture Book (Ages 0-4)</button>
+        <button class="category-button" data-category="Early Reader Book (Ages 5-7)">Early Reader Book (Ages 5-7)</button>
+        <button class="category-button" data-category="Chapter Book (Ages 6-9)">Chapter Book (Ages 6-9)</button>
     </div>
+    
+    
 
     <!-- Books Section -->
     <section id="books" class="section">
