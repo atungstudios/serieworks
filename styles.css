@@ -231,11 +231,11 @@ body {
     }
 
     .book-card h3 {
-        font-size: 1rem; /* Smaller title font for small screens */
+        font-size: 0.9rem; /* Smaller title font for small screens */
     }
 
     .book-card p {
-        font-size: 0.9rem; /* Smaller description font for small screens */
+        font-size: 0.8rem; /* Smaller description font for small screens */
     }
 }
 
@@ -251,10 +251,10 @@ body {
     }
 
     .book-card h3 {
-        font-size: 1rem; /* Smaller title font for very small screens */
+        font-size: 0.9rem; /* Smaller title font for very small screens */
     }
 
     .book-card p {
-        font-size: 0.9rem; /* Smaller description font for very small screens */
+        font-size: 0.8rem; /* Smaller description font for very small screens */
     }
 }
