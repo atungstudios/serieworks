@@ -28,7 +28,7 @@ body {
     left: 0;
     right: 0;
     background-color: #fff;
-    padding: 6px 20px;
+    padding: 8px 16px;
     z-index: 1000;
     display: flex;
     justify-content: space-between;
@@ -47,7 +47,7 @@ body {
     margin: 0 16px;
     width: 100%;
     max-width: 320px;
-    padding: 8px 20px;
+    padding: 8px 16px;
     font-size: 1rem;
     border-radius: 24px;
     border: 1px solid #ddd;
@@ -161,7 +161,7 @@ body {
     background-color: #fff;
     color: #131A22;
     text-align: center;
-    padding: 4px 20px;
+    padding: 8px 20px;
     z-index: 1000;
     font-size: 0.875rem;
     box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
