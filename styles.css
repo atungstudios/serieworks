@@ -28,7 +28,7 @@ body {
     left: 0;
     right: 0;
     background-color: #fff;
-    padding: 8px 4px;
+    padding: 8px;
     z-index: 1000;
     display: flex;
     justify-content: space-between;
