@@ -73,8 +73,8 @@ body {
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 20px;
-    padding: 10px 24px;
-    font-size: 1rem;
+    padding: 8px 16px;
+    font-size: 0.9rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
     margin: 8px;
@@ -200,8 +200,8 @@ body {
     }
 
     .category-button {
-        font-size: 1rem;
-        padding: 8px 16px;
+        font-size: 0.9rem;
+        padding: 4px 8px;
     }
 
     .book-card h3 {
@@ -220,8 +220,8 @@ body {
     }
 
     .category-button {
-        font-size: 0.9rem;
-        padding: 8px 16px;
+        font-size: 0.8rem;
+        padding: 4px 8px;
     }
 
     .book-card h3 {
@@ -240,8 +240,8 @@ body {
     }
 
     .category-button {
-        font-size: 0.9rem;
-        padding: 8px 16px;
+        font-size: 0.8rem;
+        padding: 4px 8px;
     }
 
     .book-card h3 {
