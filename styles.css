@@ -50,12 +50,14 @@ body {
     padding: 8px 16px;
     font-size: 1rem;
     border-radius: 24px;
-    border: 1px solid #ddd;
+    border: none;
     outline: none;
 }
 
-.navbar .search-input:focus {
+.navbar .search-input:focus,
+.navbar .search-input:hover {
     background-color: #fff;
+    border: 1px solid #ddd;
 }
 
 /* Category Filter */
@@ -95,7 +97,7 @@ body {
 /* Books Container with Masonry Layout */
 .books-container {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 5 columns for large screens */
+    grid-template-columns: repeat(5, 1fr); /* 5 columns for large screens */
     grid-auto-rows: 1fr;
     gap: 48px;
     margin-top: 24px;
@@ -111,7 +113,7 @@ body {
 }
 
 .book-card:hover {
-    box-shadow: 0 0 0 1px #131A22;
+    box-shadow: 0 0 0 1px rgb(55, 71, 90);
 }
 
 .book-card img {
@@ -190,7 +192,7 @@ body {
 /* For medium screens (tablets), display 4 columns */
 @media (max-width: 1024px) {
     .books-container {
-        grid-template-columns: repeat(3, 1fr); /* 3 columns for medium screens */
+        grid-template-columns: repeat(4, 1fr); /* 3 columns for medium screens */
     }
 
     .category-button {
