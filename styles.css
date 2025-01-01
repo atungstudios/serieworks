@@ -221,7 +221,7 @@ body {
 
     .category-button {
         font-size: 0.8rem;
-        padding: 8px;
+        padding: 8px 16px;
     }
 
     .book-card h3 {
@@ -241,7 +241,7 @@ body {
 
     .category-button {
         font-size: 0.8rem;
-        padding: 8px;
+        padding: 8px 16px;
     }
 
     .book-card h3 {
