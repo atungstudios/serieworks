@@ -236,7 +236,7 @@ body {
 /* For very small screens (mobile phones), display 1 column */
 @media (max-width: 480px) {
     .books-container {
-        grid-template-columns: 2fr; /* 1 column for very small screens */
+        grid-template-columns: repeat(2, 1fr); /* 1 column for very small screens */
     }
 
     .category-button {
