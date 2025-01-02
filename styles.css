@@ -181,9 +181,9 @@ body {
 
 /* Styling for Category Pills */
 .category-pills {
-    display: none;
+    display: flex;
     flex-wrap: wrap;
-    gap: 5px;
+    gap: 8px;
     justify-content: left;
     margin-top: 8px;
 }
@@ -192,7 +192,6 @@ body {
     background-color: rgb(55, 71, 90);
     color: #fff; /* Text color */
     padding: 3px 6px; /* Smaller padding */
-    border: 1px solid #ccc; /* Grey border */
     font-size: 0.8rem; /* Smaller font size */
     text-transform: capitalize;
 }
