@@ -12,7 +12,7 @@ const books = [
         description: "A delightful and engaging picture book designed to introduce your little one to the colorful world around them.",
         categories: ["Fiction", "Picture Book (Ages 0-4)"],
         amazonLink: "https://www.amazon.com",
-        image: "https://via.placeholder.com/400x640"
+        image: "./assets/covers/Cover.png"
     },
     {
         title: "Effortless Eats: Fast Recipes",
