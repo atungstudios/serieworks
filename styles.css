@@ -107,7 +107,7 @@ body {
 
 /* Individual Book Card Styling */
 .book-card {
-    padding: 8px; /* Reduced padding for a more compact layout */
+    padding: 12px; /* Reduced padding for a more compact layout */
     text-align: left;
     display: flex;
     flex-direction: column;
