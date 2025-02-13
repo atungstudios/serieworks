@@ -1,15 +1,5 @@
-// Array to hold the book data with multiple categories
-// const books = [
-//     {
-//         title: "The Sleepy Star",
-//         description: "A tiny star is too tired to twinkle, so the moon teaches it a lullaby.",
-//         categories: ["Toddler"],
-//         amazonLink: "https://www.amazon.com",
-//         image: "./assets/covers/001-The Sleepy Star.png"
-//     }
-// ];
-
-
+// scripts.js
+import { books } from './books.js';
 
 // Function to render books
 function renderBooks(filteredBooks) {
@@ -75,4 +65,9 @@ document.addEventListener('DOMContentLoaded', () => {
             renderBooks(filteredBooks); // Re-render the filtered books
         });
     });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    renderBooks(books); // Use the imported `books` array
+    // ...
 });
