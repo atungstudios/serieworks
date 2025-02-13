@@ -1,27 +1,13 @@
 // Array to hold the book data with multiple categories
-const books = [
-    {
-        title: "Baby's First Colors",
-        description: "A delightful and engaging picture book designed to introduce your little one to the colorful world around them.",
-        categories: ["Ages 0-4", "Concept"],
-        amazonLink: "https://www.amazon.com",
-        image: "./assets/covers/Cover.png"
-    },
-    {
-        title: "The Talking Tree",
-        description: "In The Talking Tree, young readers are introduced to a magical forest where anything is possible. When Emma and her little brother Max wander into the woods near their home, they stumble upon an ancient tree that can talk!",
-        categories: ["Ages 4-8"],
-        amazonLink: "https://www.amazon.com",
-        image: "https://via.placeholder.com/400x640"
-    },
-    {
-        title: "The Time Traveler's Notebook",
-        description: "When 12-year-old Ellie discovers a dusty, old notebook hidden in her grandmother's attic, she unknowingly unlocks the key to an extraordinary adventure. ",
-        categories: ["Ages 8-12"],
-        amazonLink: "https://www.amazon.com",
-        image: "https://via.placeholder.com/400x640"
-    }
-];
+// const books = [
+//     {
+//         title: "The Sleepy Star",
+//         description: "A tiny star is too tired to twinkle, so the moon teaches it a lullaby.",
+//         categories: ["Toddler"],
+//         amazonLink: "https://www.amazon.com",
+//         image: "./assets/covers/001-The Sleepy Star.png"
+//     }
+// ];
 
 
 

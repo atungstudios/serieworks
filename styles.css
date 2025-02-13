@@ -27,7 +27,7 @@ body {
     top: 0;
     left: 0;
     right: 0;
-    background-color: #fff;
+    background-color: #313158;
     padding: 8px;
     z-index: 1000;
     display: flex;
@@ -37,7 +37,7 @@ body {
 }
 
 .logo img {
-    width: 200px; /* Adjust as needed */
+    width: 160px; /* Adjust as needed */
     height: auto; /* Maintain aspect ratio */
 }
 
@@ -84,7 +84,7 @@ body {
 
 .category-button:hover,
 .category-button.active {
-    background-color: rgb(55, 71, 90);
+    background-color: #313158;
     color: white;
 }
 
@@ -116,7 +116,7 @@ body {
 }
 
 .book-card:hover {
-    box-shadow: 0 0 0 1px rgb(55, 71, 90);
+    box-shadow: 0 0 0 1px #313158;
 }
 
 .book-card img {
@@ -156,7 +156,7 @@ body {
 .amazon-link {
     margin-top: auto;
     display: inline-block;
-    color: rgb(55, 71, 90);
+    color: #313158;
     text-decoration: underline;
     font-weight: bold;
     font-size: 0.9rem; /* Reduced text size */
@@ -170,8 +170,8 @@ body {
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: #fff;
-    color: #131A22;
+    background-color: #313158;
+    color: #fff;
     text-align: center;
     padding: 8px 20px;
     z-index: 1000;
@@ -189,7 +189,7 @@ body {
 }
 
 .category-pill {
-    background-color: rgb(55, 71, 90);
+    background-color: #313158;
     color: #fff; /* Text color */
     padding: 3px 6px; /* Smaller padding */
     font-size: 0.8rem; /* Smaller font size */
