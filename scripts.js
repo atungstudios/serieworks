@@ -23,7 +23,7 @@ loadMoreButton.classList.add('load-more');
 
 // Create "Back to Top" button
 const backToTopButton = document.createElement('button');
-backToTopButton.textContent = "top";
+backToTopButton.textContent = "🔝";
 backToTopButton.classList.add('back-to-top');
 document.body.appendChild(backToTopButton);
 
