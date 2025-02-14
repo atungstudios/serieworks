@@ -1,22 +1,50 @@
-// scripts.js
-import { books } from './books.js';
+import { toddlerBooks } from './data/toddlerBooks.js';
+import { preschoolBooks } from './data/preschoolBooks.js';
+import { gradeschoolerBooks } from './data/gradeschoolerBooks.js';
+import { teenBooks } from './data/teenBooks.js';
+import { youngAdultBooks } from './data/youngAdultBooks.js';
+import { adultBooks } from './data/adultBooks.js';
 
-// Function to render books
-function renderBooks(filteredBooks) {
-    const booksContainer = document.getElementById('books-container');
-    booksContainer.innerHTML = ''; // Clear existing books
+const books = [...toddlerBooks, ...preschoolBooks, ...gradeschoolerBooks, ...teenBooks, ...youngAdultBooks, ...adultBooks];
 
-    filteredBooks.forEach(book => {
+// Shuffle books before displaying
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+    }
+}
+shuffleArray(books);
+
+const booksContainer = document.getElementById('books-container');
+const loadMoreButton = document.createElement('button');
+loadMoreButton.textContent = "Load More";
+loadMoreButton.classList.add('load-more');
+
+let booksPerPage = 10; // Load in batches of 10
+let currentIndex = 0;
+let filteredBooks = books; // Stores the current filtered book list
+
+// Function to render books incrementally
+function renderBooks(append = false) {
+    if (!append) {
+        booksContainer.innerHTML = ''; // Clear books when resetting
+        currentIndex = 0; // Reset index on new filter/search
+    }
+
+    const slice = filteredBooks.slice(currentIndex, currentIndex + booksPerPage);
+
+    slice.forEach(book => {
         const bookCard = document.createElement('div');
         bookCard.classList.add('book-card');
 
         // Create category pills
-        const categoryPills = book.categories.map(category => {
-            return `<span class="category-pill ${category.replace(/\s+/g, '')}">${category}</span>`;
-        }).join(''); // Join pills as a single string
+        const categoryPills = book.categories.map(category => 
+            `<span class="category-pill ${category.replace(/\s+/g, '')}">${category}</span>`
+        ).join('');
 
         bookCard.innerHTML = `
-            <img src="${book.image}" alt="${book.title}" />
+            <img src="${book.image}" alt="${book.title}" loading="lazy" />
             <div class="category-pills">${categoryPills}</div>
             <h3>${book.title}</h3>
             <p>${book.description}</p>
@@ -25,49 +53,56 @@ function renderBooks(filteredBooks) {
 
         booksContainer.appendChild(bookCard);
     });
+
+    currentIndex += booksPerPage;
+
+    // Ensure "Load More" button stays at the end
+    if (currentIndex < filteredBooks.length) {
+        loadMoreButton.style.display = "block";
+    } else {
+        loadMoreButton.style.display = "none";
+    }
 }
 
-// Call renderBooks on initial load
+// Load more books on button click
+loadMoreButton.addEventListener('click', () => {
+    renderBooks(true);
+});
+
+// Function to debounce search input
+function debounce(func, delay) {
+    let timeout;
+    return (...args) => {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func(...args), delay);
+    };
+}
+
+// Initialize event listeners when DOM is fully loaded
 document.addEventListener('DOMContentLoaded', () => {
-    renderBooks(books); // Display all books initially
+    renderBooks(); // Load first set of books
 
-    // Set up the search functionality
+    // Add "Load More" button outside of booksContainer to keep it at the end
+    booksContainer.parentNode.appendChild(loadMoreButton);
+
+    // Set up search functionality (Only searches in book titles now)
     const searchInput = document.getElementById('book-search');
-    searchInput.addEventListener('input', (event) => {
-        const searchTerm = event.target.value.toLowerCase(); // Convert search input to lowercase
+    searchInput.addEventListener('input', debounce((event) => {
+        const searchTerm = event.target.value.toLowerCase();
+        filteredBooks = books.filter(book => book.title.toLowerCase().includes(searchTerm)); // Only filter by title
+        renderBooks();
+    }, 300)); // 300ms delay for better performance
 
-        const filteredBooks = books.filter(book => {
-            return book.title.toLowerCase().includes(searchTerm) || 
-                   book.description.toLowerCase().includes(searchTerm);
-        });
-
-        renderBooks(filteredBooks); // Re-render the filtered books
-    });
-
-    // Set up the category filter
+    // Set up category filter
     const categoryButtons = document.querySelectorAll('.category-button');
     categoryButtons.forEach(button => {
         button.addEventListener('click', (event) => {
+            categoryButtons.forEach(btn => btn.classList.toggle('active', btn === event.target));
+
             const category = event.target.dataset.category;
+            filteredBooks = category === 'all' ? books : books.filter(book => book.categories.includes(category));
 
-            // Update the active class for buttons
-            categoryButtons.forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-
-            // Filter books by category (matching any of the selected categories)
-            const filteredBooks = books.filter(book => {
-                if (category === 'all') {
-                    return true; // Show all books if "all" is selected
-                }
-                return book.categories.includes(category); // Show books that have the selected category
-            });
-
-            renderBooks(filteredBooks); // Re-render the filtered books
+            renderBooks();
         });
     });
-});
-
-document.addEventListener('DOMContentLoaded', () => {
-    renderBooks(books); // Use the imported `books` array
-    // ...
 });

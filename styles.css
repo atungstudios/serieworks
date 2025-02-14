@@ -262,3 +262,26 @@ body {
         font-size: 0.8rem; /* Smaller description font for very small screens */
     }
 }
+
+.load-more {
+    display: block;
+    width: 200px;
+    margin: 48px auto;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #313158;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.load-more:hover {
+    background-color: #313158;
+}
+
+.load-more:disabled {
+    background-color: gray;
+    cursor: not-allowed;
+}
