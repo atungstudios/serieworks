@@ -93,6 +93,62 @@ body {
     color: white;
 }
 
+.load-more {
+    display: block;
+    width: 200px;
+    margin: 48px auto;
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    background-color: #313158;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.load-more:hover {
+    background-color: #313158;
+}
+
+.load-more:disabled {
+    background-color: gray;
+    cursor: not-allowed;
+}
+
+/* Back to Top Button */
+.back-to-top {
+    position: fixed;
+    bottom: 105px;
+    right: 20px;
+    width: 46px;
+    height: 46px;
+    background-color: #313158;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 1em;
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease, background 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.back-to-top.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.back-to-top:hover {
+    background-color: #313158;
+}
+
+
+
 /* Books Section */
 #books {
     padding: 0 20px;
@@ -263,25 +319,3 @@ body {
     }
 }
 
-.load-more {
-    display: block;
-    width: 200px;
-    margin: 48px auto;
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #313158;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-}
-
-.load-more:hover {
-    background-color: #313158;
-}
-
-.load-more:disabled {
-    background-color: gray;
-    cursor: not-allowed;
-}

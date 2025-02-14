@@ -21,6 +21,26 @@ const loadMoreButton = document.createElement('button');
 loadMoreButton.textContent = "Load More";
 loadMoreButton.classList.add('load-more');
 
+// Create "Back to Top" button
+const backToTopButton = document.createElement('button');
+backToTopButton.textContent = "top";
+backToTopButton.classList.add('back-to-top');
+document.body.appendChild(backToTopButton);
+
+// Event listener for scrolling to show/hide the button
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 300) {
+        backToTopButton.classList.add('visible');
+    } else {
+        backToTopButton.classList.remove('visible');
+    }
+});
+
+// Scroll to top function
+backToTopButton.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
 let booksPerPage = 10; // Load in batches of 10
 let currentIndex = 0;
 let filteredBooks = books; // Stores the current filtered book list
