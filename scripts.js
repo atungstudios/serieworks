@@ -1,11 +1,11 @@
-import { toddlerBooks } from './data/toddlerBooks.js';
-import { preschoolBooks } from './data/preschoolBooks.js';
-import { gradeschoolerBooks } from './data/gradeschoolerBooks.js';
-import { teenBooks } from './data/teenBooks.js';
-import { youngAdultBooks } from './data/youngAdultBooks.js';
-import { adultBooks } from './data/adultBooks.js';
+import { booksToddler } from './data/booksToddler.js';
+import { booksPreschool } from './data/booksPreschool.js';
+import { booksGradeSchooler } from './data/booksGradeSchooler.js';
+import { booksTeen } from './data/booksTeen.js';
+import { booksYoungAdult } from './data/booksYoungAdult.js';
+import { booksAdult } from './data/booksAdult.js';
 
-const books = [...toddlerBooks, ...preschoolBooks, ...gradeschoolerBooks, ...teenBooks, ...youngAdultBooks, ...adultBooks];
+const books = [...booksToddler, ...booksPreschool, ...booksGradeSchooler, ...booksTeen, ...booksYoungAdult, ...booksAdult];
 
 // Shuffle books before displaying
 function shuffleArray(array) {
@@ -68,7 +68,7 @@ function renderBooks(append = false) {
             <div class="category-pills">${categoryPills}</div>
             <h3>${book.title}</h3>
             <p>${book.description}</p>
-            <a href="${book.amazonLink}" class="amazon-link" target="_blank">View on Amazon</a>
+            <span><a href="${book.amazonLink}" class="amazon-link" target="_blank">Amazon</a> | <a href="${book.etsyLink}" class="amazon-link" target="_blank">Etsy</a></span>
         `;
 
         booksContainer.appendChild(bookCard);
@@ -122,9 +122,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const category = event.target.dataset.category;
             filteredBooks = category === 'all' ? books : books.filter(book => book.categories.includes(category));
 
+            // Reset the search input
+            searchInput.value = ''; // Clear the search box
+
             renderBooks();
         });
     });
 });
-
-//dummy
