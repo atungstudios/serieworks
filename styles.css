@@ -226,6 +226,11 @@ h1 {
     bottom: 0;
     z-index: 100;
 }
+.footer-spacer {
+    height: 60px;
+    width: 100%;
+    display: block;
+}
 
 /* === Header === */
 .header {
