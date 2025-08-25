@@ -15,6 +15,8 @@ function renderApps(list) {
         card.className = 'card';
         // Use app.image if present, otherwise fallback to placeholder
         const imageSrc = app.image && app.image.trim() !== '' ? app.image : 'https://placehold.co/300x180?text=App+Image';
+        // Add category as a class for color styling
+        const categoryClass = `card-category ${app.category}`;
         card.innerHTML = `
             <div class="card-image">
                 <img src="${imageSrc}" alt="${app.title} image" onerror="this.onerror=null;this.src='https://placehold.co/300x180?text=App+Image';" />
@@ -22,7 +24,7 @@ function renderApps(list) {
             <div class="card-content">
                 <div class="card-title-category-row">
                     <div class="card-title">${app.title}</div>
-                    <div class="card-category">${app.category.charAt(0).toUpperCase() + app.category.slice(1)}</div>
+                    <div class="${categoryClass}">${app.category.charAt(0).toUpperCase() + app.category.slice(1)}</div>
                 </div>
                 <div class="card-desc">${app.description}</div>
                 <div class="card-links">

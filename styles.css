@@ -113,19 +113,29 @@ h1 {
 }
 .card-category {
     font-size: 0.85rem;
-    color: #313158;
+    color: #fff;
     font-weight: normal;
     margin-bottom: 0;
     height: 24px;
     display: flex;
     align-items: center;
     overflow: hidden;
-    background: #f3f4f6;
     border-radius: 999px;
     padding: 0 14px;
-    border: 1px solid #e5e7eb;
+    border: none;
     justify-content: flex-end;
 }
+.card-category.educational { background: #dbeafe; color: #1e40af; }   /* light blue */
+.card-category.game { background: #fef3c7; color: #b45309; }          /* light orange */
+.card-category.productivity { background: #d1fae5; color: #065f46; }  /* light green */
+.card-category.social { background: #ede9fe; color: #5b21b6; }        /* light indigo */
+.card-category.health { background: #fee2e2; color: #991b1b; }        /* light red */
+.card-category.finance { background: #fef9c3; color: #92400e; }       /* light yellow */
+.card-category.entertainment { background: #f3e8ff; color: #7c3aed; } /* light purple */
+.card-category.utilities { background: #f3f4f6; color: #374151; }     /* light gray */
+.card-category.lifestyle { background: #fce7f3; color: #be185d; }     /* light pink */
+.card-category.news { background: #bae6fd; color: #0369a1; }          /* light sky blue */
+.card-category.travel { background: #cffafe; color: #0e7490; }        /* light cyan */
 .card-desc {
     font-size: 1rem;
     color: #374151;
