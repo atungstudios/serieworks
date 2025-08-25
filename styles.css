@@ -305,3 +305,39 @@ h1 {
 .back-to-top:hover {
     background: #23272f;
 }
+
+/* === About Container === */
+.about-container {
+    max-width: 900px;
+    margin: 48px auto 32px auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(49,49,88,0.06);
+    padding: 40px 28px 32px 28px;
+    text-align: left;
+}
+.about-container h1 {
+    text-align: center;
+    margin-bottom: 24px;
+    color: #313158;
+}
+.about-container h2 {
+    color: #6366f1;
+    margin-top: 32px;
+    margin-bottom: 12px;
+    font-size: 1.2rem;
+}
+.about-container ul {
+    margin: 0 0 24px 24px;
+    padding: 0;
+    color: #374151;
+}
+.about-container p {
+    color: #374151;
+    margin-bottom: 18px;
+    line-height: 1.7;
+}
+.about-container a {
+    color: #2563eb;
+    text-decoration: underline;
+}
