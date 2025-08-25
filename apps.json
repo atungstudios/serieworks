@@ -1,0 +1,98 @@
+[
+  {
+    "title": "Math Tutor",
+    "category": "educational",
+    "description": "Interactive math learning app.",
+    "appStore": "#",
+    "playStore": "#",
+    "image": "assets/math-tutor.png"
+  },
+  {
+    "title": "Word Explorer",
+    "category": "educational",
+    "description": "Vocabulary building for students.",
+    "appStore": "#",
+    "playStore": "#",
+    "image": "assets/word-explorer.png"
+  },
+  {
+    "title": "Puzzle Quest",
+    "category": "game",
+    "description": "Challenging puzzle game for all ages.",
+    "appStore": "#",
+    "playStore": "#",
+    "image": "assets/puzzle-quest.png"
+  },
+  {
+    "title": "TaskMaster",
+    "category": "productivity",
+    "description": "Organize your daily tasks efficiently.",
+    "appStore": "#",
+    "playStore": "#",
+    "image": "assets/taskmaster.png"
+  },
+  {
+    "title": "ChatterBox",
+    "category": "social",
+    "description": "Connect and chat with friends.",
+    "appStore": "#",
+    "playStore": "#",
+    "image": "assets/chatterbox.png"
+  },
+  {
+    "title": "FitTrack",
+    "category": "health",
+    "description": "Track your workouts and health stats.",
+    "appStore": "#",
+    "playStore": "#",
+    "image": "assets/fittrack.png"
+  },
+  {
+    "title": "Budget Buddy",
+    "category": "finance",
+    "description": "Manage your expenses and savings.",
+    "appStore": "#",
+    "playStore": "#",
+    "image": "assets/budget-buddy.png"
+  },
+  {
+    "title": "MovieTime",
+    "category": "entertainment",
+    "description": "Discover and review movies.",
+    "appStore": "#",
+    "playStore": "#",
+    "image": "assets/movietime.png"
+  },
+  {
+    "title": "QuickCalc",
+    "category": "utilities",
+    "description": "A simple and fast calculator.",
+    "appStore": "#",
+    "playStore": "#",
+    "image": "assets/quickcalc.png"
+  },
+  {
+    "title": "StyleMe",
+    "category": "lifestyle",
+    "description": "Fashion and style inspiration.",
+    "appStore": "#",
+    "playStore": "#",
+    "image": "assets/styleme.png"
+  },
+  {
+    "title": "Daily News",
+    "category": "news",
+    "description": "Stay updated with the latest news.",
+    "appStore": "#",
+    "playStore": "#",
+    "image": "assets/daily-news.png"
+  },
+  {
+    "title": "Trip Planner",
+    "category": "travel",
+    "description": "Plan and organize your trips.",
+    "appStore": "#",
+    "playStore": "#",
+    "image": "assets/trip-planner.png"
+  }
+]

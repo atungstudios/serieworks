@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serieworks</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="header-logo" style="text-decoration:none; color:inherit;">
+                <img src="assets/logo.svg" alt="Serieworks logo" style="height: 48px; width: auto; display: block;" />
+            </a>
+            <nav class="header-nav">
+                <a href="about.html" class="header-link">About</a>
+                <a href="contact.html" class="header-link">Contact</a>
+            </nav>
+        </div>
+    </header>
+    <div class="container">
+        <div class="controls">
+            <input type="text" id="searchInput" placeholder="Search apps...">
+            <select id="categoryFilter">
+                <option value="all">All Categories</option>
+                <option value="educational">Educational</option>
+                <option value="game">Game</option>
+                <option value="productivity">Productivity</option>
+                <option value="social">Social</option>
+                <option value="health">Health & Fitness</option>
+                <option value="finance">Finance</option>
+                <option value="entertainment">Entertainment</option>
+                <option value="utilities">Utilities</option>
+                <option value="lifestyle">Lifestyle</option>
+                <option value="news">News</option>
+                <option value="travel">Travel</option>
+            </select>
+        </div>
+        <div id="projectsGrid" class="grid"></div>
+    </div>
+    <button id="backToTop" class="back-to-top" title="Back to top">↑</button>
+    <footer class="footer">
+        <div>© 2025 Serieworks. All rights reserved.</div>
+    </footer>
+    <script src="script.js"></script>
+    <script>
+        const backToTop = document.getElementById('backToTop');
+        window.addEventListener('scroll', function() {
+            backToTop.style.display = window.scrollY > 200 ? 'block' : 'none';
+        });
+        backToTop.addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>
