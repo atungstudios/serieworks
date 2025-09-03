@@ -1,11 +1,12 @@
 [
   {
-    "title": "Math Tutor",
+    "title": "FlashLearn Vocab Beginner",
     "category": "educational",
-    "description": "Interactive math learning app.",
+    "description": "Master vocabulary with interactive flashcards.",
     "appStore": "#",
     "playStore": "#",
-    "image": "assets/math-tutor.png"
+    "image": "assets/math-tutor.png",
+    "status": "production"
   },
   {
     "title": "Word Explorer",
@@ -13,7 +14,8 @@
     "description": "Vocabulary building for students.",
     "appStore": "#",
     "playStore": "#",
-    "image": "assets/word-explorer.png"
+    "image": "assets/word-explorer.png",
+    "status": "in-progress"
   },
   {
     "title": "Puzzle Quest",
@@ -21,7 +23,8 @@
     "description": "Challenging puzzle game for all ages.",
     "appStore": "#",
     "playStore": "#",
-    "image": "assets/puzzle-quest.png"
+    "image": "assets/puzzle-quest.png",
+    "status": "in-progress"
   },
   {
     "title": "TaskMaster",
@@ -29,7 +32,8 @@
     "description": "Organize your daily tasks efficiently.",
     "appStore": "#",
     "playStore": "#",
-    "image": "assets/taskmaster.png"
+    "image": "assets/taskmaster.png",
+    "status": "in-progress"
   },
   {
     "title": "ChatterBox",
@@ -37,7 +41,8 @@
     "description": "Connect and chat with friends.",
     "appStore": "#",
     "playStore": "#",
-    "image": "assets/chatterbox.png"
+    "image": "assets/chatterbox.png",
+    "status": "in-progress"
   },
   {
     "title": "FitTrack",
@@ -45,7 +50,8 @@
     "description": "Track your workouts and health stats.",
     "appStore": "#",
     "playStore": "#",
-    "image": "assets/fittrack.png"
+    "image": "assets/fittrack.png",
+    "status": "in-progress"
   },
   {
     "title": "Budget Buddy",
@@ -53,7 +59,8 @@
     "description": "Manage your expenses and savings.",
     "appStore": "#",
     "playStore": "#",
-    "image": "assets/budget-buddy.png"
+    "image": "assets/budget-buddy.png",
+    "status": "in-progress"
   },
   {
     "title": "MovieTime",
@@ -61,7 +68,8 @@
     "description": "Discover and review movies.",
     "appStore": "#",
     "playStore": "#",
-    "image": "assets/movietime.png"
+    "image": "assets/movietime.png",
+    "status": "in-progress"
   },
   {
     "title": "QuickCalc",
@@ -69,7 +77,8 @@
     "description": "A simple and fast calculator.",
     "appStore": "#",
     "playStore": "#",
-    "image": "assets/quickcalc.png"
+    "image": "assets/quickcalc.png",
+    "status": "in-progress"
   },
   {
     "title": "StyleMe",
@@ -77,7 +86,8 @@
     "description": "Fashion and style inspiration.",
     "appStore": "#",
     "playStore": "#",
-    "image": "assets/styleme.png"
+    "image": "assets/styleme.png",
+    "status": "in-progress"
   },
   {
     "title": "Daily News",
@@ -85,7 +95,8 @@
     "description": "Stay updated with the latest news.",
     "appStore": "#",
     "playStore": "#",
-    "image": "assets/daily-news.png"
+    "image": "assets/daily-news.png",
+    "status": "in-progress"
   },
   {
     "title": "Trip Planner",
@@ -93,6 +104,7 @@
     "description": "Plan and organize your trips.",
     "appStore": "#",
     "playStore": "#",
-    "image": "assets/trip-planner.png"
+    "image": "assets/trip-planner.png",
+    "status": "in-progress"
   }
 ]

@@ -47,7 +47,8 @@ function filterAndSearch() {
     const filtered = apps.filter(a => {
         const matchesCategory = category === 'all' || a.category === category;
         const matchesSearch = a.title.toLowerCase().includes(search);
-        return matchesCategory && matchesSearch;
+        const isProduction = a.status === 'production'; // Only show production apps
+        return matchesCategory && matchesSearch && isProduction;
     });
     renderApps(filtered);
 }
@@ -60,5 +61,7 @@ fetch('apps.json')
     .then(res => res.json())
     .then(data => {
         apps = data;
-        renderApps(apps);
+        // Filter to show only production apps on initial load
+        const productionApps = apps.filter(app => app.status === 'production');
+        renderApps(productionApps);
     });
