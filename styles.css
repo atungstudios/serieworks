@@ -6,10 +6,60 @@ body {
     padding: 0 0 30px 0;
     min-height: 100vh;
 }
+
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 16px;
+}
+
+/* === Header === */
+.header-logo {
+    text-decoration: none;
+    color: inherit;
+}
+
+.header-logo img {
+    height: 48px;
+    width: auto;
+    display: block;
+}
+
+/* === Footer === */
+.footer-content {
+    text-align: center;
+}
+
+.footer-link {
+    color: inherit;
+    text-decoration: underline;
+}
+
+/* === Error and No Results States === */
+.no-results,
+.error-message {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px 20px;
+    color: #6b7280;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.no-results p:first-child,
+.error-message p:first-child {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 8px;
+}
+
+.error-message {
+    color: #ef4444;
+}
+
+.error-message p:first-child {
+    color: #dc2626;
 }
 
 /* === Typography === */
@@ -29,6 +79,7 @@ h1 {
     justify-content: center;
     margin-bottom: 28px;
     flex-wrap: wrap;
+    max-width: 100%;
 }
 #searchInput, #categoryFilter {
     padding: 12px 16px;
@@ -38,7 +89,16 @@ h1 {
     background: #ffffff;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
-    min-width: 180px;
+    box-sizing: border-box;
+}
+#searchInput {
+    min-width: 200px;
+    max-width: 350px;
+    flex: 1;
+}
+#categoryFilter {
+    min-width: 150px;
+    max-width: 200px;
 }
 #searchInput:focus, #categoryFilter:focus {
     outline: none;
@@ -69,6 +129,21 @@ h1 {
         gap: 16px;
     }
 }
+@media (max-width: 900px) {
+    .controls {
+        gap: 12px;
+        padding: 0 16px;
+    }
+    #searchInput {
+        min-width: 150px;
+        max-width: 280px;
+    }
+    #categoryFilter {
+        min-width: 120px;
+        max-width: 160px;
+    }
+}
+
 @media (max-width: 768px) {
     .grid {
         grid-template-columns: 1fr;
@@ -80,13 +155,16 @@ h1 {
     }
     .controls {
         flex-direction: column;
-        align-items: center;
+        align-items: stretch;
         gap: 12px;
+        padding: 0;
+        margin: 0 0 28px 0;
     }
     #searchInput, #categoryFilter {
         width: 100%;
-        max-width: 350px;
+        max-width: none;
         min-width: 0;
+        flex: none;
     }
 }
 
@@ -121,11 +199,6 @@ h1 {
     }
 }
 
-.card:hover {
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18), 0 6px 15px rgba(0, 0, 0, 0.12);
-    transform: translateY(-6px) scale(1.015);
-    border-color: #d1d5db;
-}
 .card-content {
     padding: 18px 18px 22px 18px;
     display: flex;
@@ -177,17 +250,23 @@ h1 {
     align-self: flex-end;
     width: fit-content;
 }
-.card-category.educational { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
-.card-category.game { background: linear-gradient(135deg, #f59e0b, #d97706); }
-.card-category.productivity { background: linear-gradient(135deg, #10b981, #059669); }
-.card-category.social { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
-.card-category.health { background: linear-gradient(135deg, #ef4444, #dc2626); }
-.card-category.finance { background: linear-gradient(135deg, #f59e0b, #d97706); }
-.card-category.entertainment { background: linear-gradient(135deg, #ec4899, #db2777); }
-.card-category.utilities { background: linear-gradient(135deg, #6b7280, #4b5563); }
-.card-category.lifestyle { background: linear-gradient(135deg, #f472b6, #e879f9); }
-.card-category.news { background: linear-gradient(135deg, #06b6d4, #0891b2); }
-.card-category.travel { background: linear-gradient(135deg, #14b8a6, #0d9488); }
+/* === Category Pills === */
+.card-category.educational,
+.card-category.game,
+.card-category.productivity,
+.card-category.social,
+.card-category.health,
+.card-category.finance,
+.card-category.entertainment,
+.card-category.utility,
+.card-category.music,
+.card-category.news,
+.card-category.photo,
+.card-category.travel {
+    background: #6b7280;
+    color: #fff;
+}
+
 .card-desc {
     font-size: 1rem;
     color: #6b7280;
@@ -206,34 +285,18 @@ h1 {
     padding-top: 14px;
     display: flex;
     gap: 12px;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    min-height: 36px;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    justify-content: center;
+    min-height: fit-content;
 }
 
 /* === Store Badges === */
-.store-link {
-    flex: 1 1 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0 !important;
-    background: none;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-}
-.store-link:hover, .store-link:focus {
-    background: none !important;
-    box-shadow: none !important;
-    border-radius: 8px !important;
-    padding: 0 !important;
-    transform: scale(1.05);
-}
-.store-link img {
-    width: 100%;
-    max-width: 100px;
-    height: 30px;
+.store-badge {
+    width: auto;
+    height: auto;
+    min-height: 30px;
+    max-height: 40px;
     display: block;
     background: none;
     border-radius: 6px;
@@ -242,11 +305,26 @@ h1 {
     object-fit: contain;
     opacity: 0.85;
     transition: all 0.3s ease;
+    cursor: pointer;
+    padding: 0;
+    border: none;
 }
-.store-link:hover img,
-.store-link:focus img {
-    opacity: 1;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+
+/* Responsive store badge sizing */
+@media (max-width: 1024px) {
+    .store-badge {
+        min-height: 28px;
+        max-height: 36px;
+    }
+}
+@media (max-width: 768px) {
+    .store-badge {
+        min-height: 32px;
+        max-height: 42px;
+    }
+    .card-links {
+        gap: 8px;
+    }
 }
 
 /* === Card Image === */
@@ -272,9 +350,6 @@ h1 {
     transition: all 0.4s ease;
     border-bottom: 1px solid #f3f4f6;
 }
-.card:hover .card-image img {
-    transform: scale(1.05);
-}
 
 /* === Footer === */
 .footer {
@@ -299,7 +374,7 @@ h1 {
 /* === Header === */
 .header {
     width: 100%;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #7c3aed 0%, #667eea 100%);
     color: #fff;
     padding: 16px 0;
     box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
