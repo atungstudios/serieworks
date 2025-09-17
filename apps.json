@@ -3,9 +3,9 @@
     "title": "FlashLearn Vocab Beginner",
     "category": "educational",
     "description": "Master vocabulary with interactive flashcards.",
-    "appStore": "#",
+    "appStore": "https://apps.apple.com/app/flashlearn-vocab-beginner/id6752231208",
     "playStore": "#",
-    "image": "assets/math-tutor.png",
+    "image": "assets/app_img/flashlearn_vocab_beginner.png",
     "status": "production"
   },
   {
@@ -14,7 +14,7 @@
     "description": "Vocabulary building for students.",
     "appStore": "#",
     "playStore": "#",
-    "image": "assets/word-explorer.png",
+    "image": "assets/app_img/word_explorer.png",
     "status": "in-progress"
   },
   {
@@ -23,7 +23,7 @@
     "description": "Challenging puzzle game for all ages.",
     "appStore": "#",
     "playStore": "#",
-    "image": "assets/puzzle-quest.png",
+    "image": "assets/app_img/puzzle_quest.png",
     "status": "in-progress"
   },
   {
@@ -32,7 +32,7 @@
     "description": "Organize your daily tasks efficiently.",
     "appStore": "#",
     "playStore": "#",
-    "image": "assets/taskmaster.png",
+    "image": "assets/app_img/taskmaster.png",
     "status": "in-progress"
   },
   {
@@ -41,7 +41,7 @@
     "description": "Connect and chat with friends.",
     "appStore": "#",
     "playStore": "#",
-    "image": "assets/chatterbox.png",
+    "image": "assets/app_img/chatterbox.png",
     "status": "in-progress"
   },
   {
@@ -50,7 +50,7 @@
     "description": "Track your workouts and health stats.",
     "appStore": "#",
     "playStore": "#",
-    "image": "assets/fittrack.png",
+    "image": "assets/app_img/fittrack.png",
     "status": "in-progress"
   },
   {
@@ -59,7 +59,7 @@
     "description": "Manage your expenses and savings.",
     "appStore": "#",
     "playStore": "#",
-    "image": "assets/budget-buddy.png",
+    "image": "assets/app_img/budget_buddy.png",
     "status": "in-progress"
   },
   {
@@ -68,7 +68,7 @@
     "description": "Discover and review movies.",
     "appStore": "#",
     "playStore": "#",
-    "image": "assets/movietime.png",
+    "image": "assets/app_img/movietime.png",
     "status": "in-progress"
   },
   {
@@ -77,7 +77,7 @@
     "description": "A simple and fast calculator.",
     "appStore": "#",
     "playStore": "#",
-    "image": "assets/quickcalc.png",
+    "image": "assets/app_img/quickcalc.png",
     "status": "in-progress"
   },
   {
@@ -86,7 +86,7 @@
     "description": "Fashion and style inspiration.",
     "appStore": "#",
     "playStore": "#",
-    "image": "assets/styleme.png",
+    "image": "assets/app_img/styleme.png",
     "status": "in-progress"
   },
   {
@@ -95,7 +95,7 @@
     "description": "Stay updated with the latest news.",
     "appStore": "#",
     "playStore": "#",
-    "image": "assets/daily-news.png",
+    "image": "assets/app_img/daily_news.png",
     "status": "in-progress"
   },
   {
@@ -104,7 +104,7 @@
     "description": "Plan and organize your trips.",
     "appStore": "#",
     "playStore": "#",
-    "image": "assets/trip-planner.png",
+    "image": "assets/app_img/trip_planner.png",
     "status": "in-progress"
   }
 ]

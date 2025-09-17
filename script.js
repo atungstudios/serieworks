@@ -205,7 +205,21 @@ class AppGallery {
      * Format category name for display
      */
     formatCategoryName(category) {
-        return category.charAt(0).toUpperCase() + category.slice(1);
+        const categoryShortForms = {
+            'educational': 'Edu',
+            'game': 'Game',
+            'productivity': 'Prod',
+            'social': 'Social',
+            'health': 'Health',
+            'finance': 'Finance',
+            'entertainment': 'Ent',
+            'utilities': 'Utils',
+            'lifestyle': 'Life',
+            'news': 'News',
+            'travel': 'Travel'
+        };
+        
+        return categoryShortForms[category] || category.charAt(0).toUpperCase() + category.slice(1);
     }
 
     /**
@@ -267,7 +281,14 @@ class AppGallery {
         
         const link = event.target.getAttribute('data-link');
         if (link && link !== '#') {
-            window.open(link, '_blank', 'noopener,noreferrer');
+            // Check if user is on desktop/PC
+            if (this.isDesktop()) {
+                // Show QR code modal instead of direct link
+                this.showQRModal(link, event.target);
+            } else {
+                // Mobile device - open app store directly
+                window.open(link, '_blank', 'noopener,noreferrer');
+            }
         }
     }
 
@@ -350,6 +371,116 @@ class AppGallery {
                 </div>
             `;
         }
+    }
+
+    /**
+     * Check if user is on desktop/PC
+     */
+    isDesktop() {
+        const userAgent = navigator.userAgent.toLowerCase();
+        const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
+        const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+        
+        // Consider it desktop if not mobile and screen is wide enough
+        return !isMobile && window.innerWidth >= 768;
+    }
+
+    /**
+     * Show QR code modal for desktop users
+     */
+    showQRModal(storeLink, badgeElement) {
+        // Find the app title from the badge's parent card
+        const appCard = badgeElement.closest('.app-card');
+        const appTitle = appCard ? appCard.querySelector('h3').textContent : 'Mobile App';
+        
+        // Update modal content
+        document.getElementById('qrModalTitle').textContent = `Get ${appTitle}`;
+        
+        // Set up store links
+        const isAppStore = badgeElement.alt && badgeElement.alt.includes('App Store');
+        const appStoreLink = document.getElementById('qrAppStoreLink');
+        const playStoreLink = document.getElementById('qrPlayStoreLink');
+        
+        if (isAppStore) {
+            appStoreLink.href = storeLink;
+            appStoreLink.style.display = 'inline-block';
+            playStoreLink.style.display = 'none';
+        } else {
+            playStoreLink.href = storeLink;
+            playStoreLink.style.display = 'inline-block';
+            appStoreLink.style.display = 'none';
+        }
+        
+        // Generate QR code
+        this.generateQRCode(storeLink);
+        
+        // Show modal
+        const modal = document.getElementById('qrModal');
+        modal.style.display = 'flex';
+        
+        // Set up close handlers
+        this.setupQRModalHandlers();
+    }
+
+    /**
+     * Generate QR code for the given URL
+     */
+    generateQRCode(url) {
+        const qrContainer = document.getElementById('qrCodeImage');
+        
+        // Clear previous QR code
+        qrContainer.innerHTML = '';
+        
+        // Use QR Server API for QR code generation
+        const qrSize = 200;
+        const qrURL = `https://api.qrserver.com/v1/create-qr-code/?size=${qrSize}x${qrSize}&data=${encodeURIComponent(url)}&bgcolor=ffffff&color=000000&margin=1`;
+        
+        const qrImage = document.createElement('img');
+        qrImage.src = qrURL;
+        qrImage.alt = 'QR Code';
+        qrImage.style.width = `${qrSize}px`;
+        qrImage.style.height = `${qrSize}px`;
+        
+        // Add error handling
+        qrImage.onerror = () => {
+            qrContainer.innerHTML = `
+                <div style="width: ${qrSize}px; height: ${qrSize}px; border: 2px dashed #ccc; display: flex; align-items: center; justify-content: center; text-align: center; color: #666; font-size: 14px;">
+                    <div>
+                        QR Code not available<br>
+                        <small>Please use the link below</small>
+                    </div>
+                </div>
+            `;
+        };
+        
+        qrContainer.appendChild(qrImage);
+    }
+
+    /**
+     * Set up QR modal event handlers
+     */
+    setupQRModalHandlers() {
+        const modal = document.getElementById('qrModal');
+        const closeBtn = modal.querySelector('.qr-modal-close');
+        
+        // Close on X button click
+        closeBtn.onclick = () => {
+            modal.style.display = 'none';
+        };
+        
+        // Close on backdrop click
+        modal.onclick = (event) => {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        };
+        
+        // Close on Escape key
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && modal.style.display === 'flex') {
+                modal.style.display = 'none';
+            }
+        });
     }
 }
 
