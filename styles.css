@@ -166,6 +166,32 @@ h1 {
         min-width: 0;
         flex: none;
     }
+    
+    /* Mobile Header Navigation */
+    .header-content {
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
+    }
+    .header-nav {
+        gap: 16px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .header-link {
+        font-size: 0.9rem;
+        padding: 8px 12px;
+    }
+    
+    /* Mobile Footer */
+    .footer {
+        font-size: 0.8rem;
+        padding: 8px 0;
+        line-height: 1.4;
+    }
+    .footer-content {
+        padding: 0 12px;
+    }
 }
 
 /* === Card === */
