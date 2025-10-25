@@ -106,5 +106,14 @@
     "playStore": "#",
     "image": "assets/app_img/trip_planner.png",
     "status": "in-progress"
+  },
+  {
+    "title": "Yuusha",
+    "category": "health",
+    "description": "Create custom workouts, plan your week, and track progress. Beautiful interface, offline support, unlimited exercises. Your personal fitness planner.",
+    "appStore": "https://apps.apple.com/us/app/yuusha/id6754209598",
+    "playStore": "#",
+    "image": "assets/app_img/yuusha.png",
+    "status": "production"
   }
 ]
