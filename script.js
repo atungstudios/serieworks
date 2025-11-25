@@ -179,10 +179,8 @@ class AppGallery {
                      ${this.config.features.enableLazyLoading ? 'loading="lazy"' : ''} />
             </div>
             <div class="card-content">
-                <div class="card-title-category-row">
-                    <div class="card-title" title="${this.escapeHtml(app.title)}">${this.escapeHtml(app.title)}</div>
-                    <div class="${categoryClass}">${categoryDisplay}</div>
-                </div>
+                <div class="${categoryClass}">${categoryDisplay}</div>
+                <div class="card-title" title="${this.escapeHtml(app.title)}">${this.escapeHtml(app.title)}</div>
                 <div class="card-desc" title="${this.escapeHtml(app.description)}">${this.escapeHtml(app.description)}</div>
                 <div class="card-links">
                     ${this.createStoreBadge('appStore', app.appStore)}

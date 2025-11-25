@@ -115,8 +115,8 @@ h1 {
 /* === Grid === */
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 24px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
     padding: 0;
 }
 
@@ -217,10 +217,10 @@ h1 {
 /* === Card === */
 .card {
     background: #ffffff;
-    border-radius: 16px;
+    border-radius: 8px;
     display: flex;
     flex-direction: column;
-    min-height: 320px;
+    min-height: 280px;
     height: auto;
     padding: 0;
     overflow: hidden;
@@ -251,36 +251,28 @@ h1 {
 }
 
 .card-content {
-    padding: 20px;
+    padding: 14px 14px 12px 14px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     box-sizing: border-box;
     overflow: visible;
     flex-grow: 1;
-    gap: 12px;
-}
-.card-title-category-row {
-    display: flex;
-    flex-direction: row;
-    gap: 8px;
-    margin-bottom: 0;
-    align-items: center;
-    justify-content: space-between;
+    gap: 6px;
 }
 .card-title {
-    font-size: 1.0625rem;
+    font-size: 0.875rem;
     font-weight: 600;
-    margin-bottom: 0;
-    min-height: 1.5rem;
-    max-height: 1.5rem;
+    margin-bottom: 2px;
+    min-height: 1.4rem;
+    max-height: 1.4rem;
     display: -webkit-box;
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     overflow: hidden;
     word-wrap: break-word;
     hyphens: auto;
-    line-height: 1.5;
+    line-height: 1.4;
     color: #111827;
     letter-spacing: -0.01em;
     flex: 1;
@@ -290,12 +282,12 @@ h1 {
     font-size: 0.65rem;
     color: #6b7280;
     font-weight: 500;
-    margin-bottom: 0;
+    margin-bottom: 4px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     overflow: visible;
-    border-radius: 6px;
+    border-radius: 4px;
     padding: 3px 8px;
     border: 1px solid #e5e7eb;
     white-space: nowrap;
@@ -305,6 +297,7 @@ h1 {
     box-shadow: none;
     background: #f9fafb;
     flex-shrink: 0;
+    align-self: flex-end;
 }
 
 /* === Category Pills === */
@@ -326,7 +319,7 @@ h1 {
 }
 
 .card-desc {
-    font-size: 0.875rem;
+    font-size: 0.75rem;
     color: #6b7280;
     margin-bottom: 0;
     overflow: hidden;
@@ -335,35 +328,46 @@ h1 {
     -webkit-box-orient: vertical;
     height: auto;
     word-break: break-word;
-    line-height: 1.6;
+    line-height: 1.5;
     flex-grow: 1;
 }
 .card-links {
     margin-top: auto;
-    padding-top: 12px;
+    padding: 0;
     display: flex;
-    gap: 10px;
+    gap: 8px;
     flex-wrap: nowrap;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
-    min-height: fit-content;
+    min-height: 0;
+    height: fit-content;
+    line-height: 0;
 }
 
 /* === Store Badges === */
 .store-badge {
     width: auto;
-    height: 28px;
-    max-width: 45%;
+    max-width: 48%;
+    height: 34px;
     display: block;
     background: none;
-    border-radius: 6px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     margin: 0;
-    object-fit: contain;
+    object-fit: scale-down;
     opacity: 0.9;
     cursor: pointer;
     padding: 0;
     border: none;
+    vertical-align: top;
+}
+
+.store-badge[alt*="App Store"] {
+    height: 34px;
+}
+
+.store-badge[alt*="Google Play"] {
+    height: 34px;
+    transform: scale(1.05);
+    transform-origin: center;
 }
 
 .card-links {
@@ -375,15 +379,15 @@ h1 {
 
 @media (min-width: 1200px) {
     .store-badge {
-        height: 32px;
+        max-height: 38px;
         max-width: 48%;
     }
 }
 
 @media (max-width: 480px) {
     .store-badge {
-        height: 26px;
-        max-width: 45%;
+        max-height: 30px;
+        max-width: 48%;
     }
 }
 
