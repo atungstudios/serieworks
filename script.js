@@ -205,21 +205,21 @@ class AppGallery {
      * Format category name for display
      */
     formatCategoryName(category) {
-        const categoryShortForms = {
-            'educational': 'Edu',
+        const categoryNames = {
+            'educational': 'Educational',
             'game': 'Game',
-            'productivity': 'Prod',
+            'productivity': 'Productivity',
             'social': 'Social',
-            'health': 'Health',
+            'health': 'Health & Fitness',
             'finance': 'Finance',
-            'entertainment': 'Ent',
-            'utilities': 'Utils',
-            'lifestyle': 'Life',
+            'entertainment': 'Entertainment',
+            'utilities': 'Utilities',
+            'lifestyle': 'Lifestyle',
             'news': 'News',
             'travel': 'Travel'
         };
         
-        return categoryShortForms[category] || category.charAt(0).toUpperCase() + category.slice(1);
+        return categoryNames[category] || category.charAt(0).toUpperCase() + category.slice(1);
     }
 
     /**

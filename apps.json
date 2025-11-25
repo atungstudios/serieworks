@@ -115,5 +115,23 @@
     "playStore": "#",
     "image": "assets/app_img/yuusha.png",
     "status": "production"
+  },
+  {
+    "title": "dashari life",
+    "category": "lifestyle",
+    "description": "Transform your relationship with your belongings through the Japanese art of danshari\u2014mindful decluttering that creates space for what truly matters.",
+    "appStore": "https://apps.apple.com/us/app/danshari-life/id6753592041",
+    "playStore": "#",
+    "image": "assets/app_img/danshari-life.png",
+    "status": "production"
+  },
+  {
+    "title": "Kakeibo",
+    "category": "finance",
+    "description": "Discover the Art of Mindful Budgeting with KakeiboTransform your relationship with money using the traditional Japanese Kakeibo method. This elegant app brings centuries-old wisdom to modern financial management, helping you build better money habits through mindful tracking and reflection.",
+    "appStore": "https://apps.apple.com/us/app/kakeibo-budget-tracker/id6754932311",
+    "playStore": "#",
+    "image": "assets/app_img/Kakeibo.png",
+    "status": "production"
   }
 ]
