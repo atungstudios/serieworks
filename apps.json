@@ -133,5 +133,14 @@
     "playStore": "#",
     "image": "assets/app_img/Kakeibo.png",
     "status": "production"
+  },
+  {
+    "title": "makefoodof",
+    "category": "lifestyle",
+    "description": "Turn your kitchen ingredients into amazing home-cooked meals! MakeFoodOf helps you discover what to cook based on what you already have at home.",
+    "appStore": "https://apps.apple.com/us/app/kakeibo-budget-tracker/id6757093911",
+    "playStore": "#",
+    "image": "assets/app_img/makefoodof.png",
+    "status": "production"
   }
 ]
