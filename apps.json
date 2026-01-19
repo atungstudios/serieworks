@@ -142,5 +142,14 @@
     "playStore": "#",
     "image": "assets/app_img/makefoodof.png",
     "status": "production"
+  },
+  {
+    "title": "Watermation - Drink Tracker",
+    "category": "health",
+    "description": "Simple water tracking that works. Custom daily goals, smart notifications, and streak celebrations keep you hydrated. Upgrade for full customization.",
+    "appStore": "https://apps.apple.com/us/app/watermation-drink-tracker/id6757375818",
+    "playStore": "#",
+    "image": "assets/app_img/watermation.png",
+    "status": "production"
   }
 ]
