@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>App Creation Guide</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <script src="nav.js"></script>
+    <style>
+        .docs-page {
+            display: flex;
+            align-items: flex-start;
+            max-width: 1160px;
+            margin: 0 auto;
+            padding: 0 20px 80px 20px;
+        }
+
+        /* Sidebar */
+        .docs-sidebar {
+            width: 240px;
+            flex-shrink: 0;
+            position: sticky;
+            top: 80px;
+            max-height: calc(100vh - 96px);
+            overflow-y: auto;
+            padding: 32px 0;
+            scrollbar-width: thin;
+        }
+        .docs-sidebar::-webkit-scrollbar { width: 4px; }
+        .docs-sidebar::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 4px; }
+
+        .sidebar-heading {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: #9ca3af;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 0 16px 10px;
+        }
+        .sidebar-nav { list-style: none; margin: 0; padding: 0; }
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 7px 16px;
+            font-size: 0.875rem;
+            color: #374151;
+            text-decoration: none;
+            border-left: 2px solid transparent;
+            transition: color 0.15s, border-color 0.15s, background 0.15s;
+            line-height: 1.4;
+        }
+        .sidebar-nav a:hover { color: #667eea; background: #f5f3ff; }
+        .sidebar-nav a.active { color: #667eea; font-weight: 600; border-left-color: #667eea; background: #f5f3ff; }
+        .sidebar-nav .phase-dot {
+            width: 20px; height: 20px; border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff; font-size: 0.68rem; font-weight: 800;
+            display: inline-flex; align-items: center; justify-content: center;
+            flex-shrink: 0; opacity: 0.7; transition: opacity 0.15s;
+        }
+        .sidebar-nav a.active .phase-dot, .sidebar-nav a:hover .phase-dot { opacity: 1; }
+
+        .sidebar-divider { border: none; border-top: 1px solid #f3f4f6; margin: 14px 16px; }
+
+        .sidebar-hint {
+            padding: 0 16px;
+            font-size: 0.74rem;
+            color: #9ca3af;
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+        .sidebar-reset {
+            display: block;
+            padding: 7px 16px;
+            font-size: 0.8rem;
+            color: #9ca3af;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            transition: color 0.15s;
+        }
+        .sidebar-reset:hover { color: #ef4444; }
+
+        /* Main content */
+        .docs-content { flex: 1; min-width: 0; padding: 36px 0 36px 48px; }
+
+        .docs-breadcrumb {
+            font-size: 0.8rem; color: #9ca3af; margin-bottom: 22px;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .docs-title { font-size: 2rem; font-weight: 800; color: #111827; letter-spacing: -0.025em; margin: 0 0 6px; }
+        .docs-subtitle { font-size: 0.95rem; color: #6b7280; margin: 0 0 36px; line-height: 1.6; }
+
+        .docs-section { margin-bottom: 48px; scroll-margin-top: 90px; }
+        .docs-section-title {
+            font-size: 1.25rem; font-weight: 700; color: #111827;
+            margin: 0 0 24px; padding-bottom: 12px; border-bottom: 1px solid #e5e7eb;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .docs-section-badge {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff; border-radius: 6px; padding: 2px 9px;
+            font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em;
+            flex-shrink: 0;
+        }
+
+        /* Steps */
+        .docs-steps { list-style: none; margin: 0; padding: 0; }
+        .docs-step { display: flex; gap: 20px; position: relative; padding-bottom: 28px; }
+        .docs-step:not(:last-child) .step-left::after {
+            content: '';
+            position: absolute; top: 28px; left: 11px; width: 2px; bottom: 0;
+            background: #e5e7eb; border-radius: 1px;
+        }
+        .step-left { position: relative; width: 24px; flex-shrink: 0; }
+        .step-num {
+            width: 24px; height: 24px; border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff; font-size: 0.72rem; font-weight: 800;
+            display: flex; align-items: center; justify-content: center;
+            position: relative; z-index: 1;
+        }
+
+        .step-body { flex: 1; padding-top: 2px; min-width: 0; }
+
+        /* Editable text */
+        [contenteditable] {
+            outline: none;
+            border-radius: 4px;
+            transition: background 0.15s, box-shadow 0.15s;
+        }
+        [contenteditable]:hover { background: #f9fafb; }
+        [contenteditable]:focus {
+            background: #f5f3ff;
+            box-shadow: 0 0 0 2px #c4b5fd;
+            padding: 2px 6px;
+            margin: -2px -6px;
+        }
+        [contenteditable]:empty::before {
+            content: attr(data-placeholder);
+            color: #c4c9d4;
+            pointer-events: none;
+        }
+
+        .step-title {
+            display: block;
+            font-size: 0.975rem; font-weight: 600; color: #111827; line-height: 1.45;
+        }
+        .step-desc {
+            display: block;
+            font-size: 0.875rem; color: #6b7280; line-height: 1.65; margin: 6px 0 0 0;
+        }
+
+        /* Step toolbar (delete, drag) */
+        .step-toolbar {
+            position: absolute;
+            right: 0; top: 0;
+            display: none;
+            gap: 4px;
+        }
+        .docs-step:hover .step-toolbar { display: flex; }
+        .step-delete {
+            width: 22px; height: 22px; border-radius: 6px;
+            background: #fee2e2; color: #ef4444; border: none;
+            font-size: 0.85rem; cursor: pointer; display: flex;
+            align-items: center; justify-content: center; line-height: 1;
+            transition: background 0.15s;
+        }
+        .step-delete:hover { background: #fecaca; }
+
+        /* Note callout */
+        .step-note {
+            display: flex; gap: 10px;
+            margin: 10px 0 0 0;
+            background: #f5f3ff; border-left: 3px solid #667eea;
+            border-radius: 0 6px 6px 0; padding: 10px 14px;
+            font-size: 0.83rem; color: #4b5563; line-height: 1.55;
+        }
+
+        /* Add step button */
+        .add-step-btn {
+            display: flex; align-items: center; gap: 7px;
+            margin-top: 4px; padding: 8px 12px;
+            border: 1.5px dashed #d1d5db; border-radius: 8px;
+            background: none; color: #9ca3af; font-size: 0.85rem;
+            cursor: pointer; width: 100%; transition: all 0.15s;
+        }
+        .add-step-btn:hover { border-color: #667eea; color: #667eea; background: #f5f3ff; }
+        .add-step-btn svg { flex-shrink: 0; }
+
+        /* Section title editable name */
+        .section-name { flex: 1; }
+
+        @media (max-width: 760px) {
+            .docs-page { flex-direction: column; padding: 0 16px 80px; }
+            .docs-sidebar { width: 100%; position: static; max-height: none; padding: 20px 0 0; border-bottom: 1px solid #e5e7eb; margin-bottom: 24px; }
+            .docs-content { padding: 24px 0 0; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header"></header>
+
+    <div class="docs-page">
+        <aside class="docs-sidebar">
+            <p class="sidebar-heading">On this page</p>
+            <ul class="sidebar-nav" id="sidebarNav"></ul>
+            <hr class="sidebar-divider">
+            <p class="sidebar-hint">Click any text to edit it. Changes are saved automatically.</p>
+            <button class="sidebar-reset" id="resetGuide">&#8635; Reset to defaults</button>
+        </aside>
+
+        <main class="docs-content" id="guideMain">
+            <nav class="docs-breadcrumb">
+                <a href="index.html" style="color:#667eea;text-decoration:none;">Serieworks</a>
+                <span>&#8250;</span>
+                App Creation Guide
+            </nav>
+            <h1 class="docs-title">App Creation Guide</h1>
+            <p class="docs-subtitle">Click any text to edit it. Your changes are saved in the browser.</p>
+        </main>
+    </div>
+
+    <footer class="footer"></footer>
+
+    <script>
+    const STORAGE_KEY = 'guide_v3';
+
+    const DEFAULT_SECTIONS = [
+        {
+            id: 'phase1',
+            title: 'Idea & Research',
+            steps: [
+                { title: 'Define the app idea & the core problem it solves', desc: 'Write one sentence: what it does and who it\'s for.' },
+                { title: 'Research competitors on the App Store / Play Store', desc: 'Identify gaps, read common complaints in reviews, and note pricing strategies.' },
+                { title: 'Decide on target platform(s) and monetisation model', desc: 'iOS / Android / both — free, IAP, subscription, or paid upfront.' },
+                { title: 'Choose the app name & check availability', desc: 'Check the App Store, Play Store, domain registrars, and key social handles.' },
+            ]
+        },
+        {
+            id: 'phase2',
+            title: 'Planning & Design',
+            steps: [
+                { title: 'List MVP features — core only, no extras', desc: 'Ruthlessly cut anything that isn\'t essential to the core loop. Save nice-to-haves for v2.' },
+                { title: 'Sketch screen flows & wireframes', desc: 'Paper sketches or a quick Figma / Excalidraw flow. Focus on navigation and the main user journey.' },
+                { title: 'Create app icon & choose colour palette / fonts', desc: 'The icon is your most visible marketing asset. Aim for something distinctive at small sizes.' },
+                { title: 'Set up the project repo & folder structure', desc: 'Git init, .gitignore, and a clear README. Commit early and often.' },
+            ]
+        },
+        {
+            id: 'phase3',
+            title: 'Development',
+            steps: [
+                { title: 'Build core screens & navigation', desc: 'Get the skeleton of the app running first — tabs, stacks, and the main flow.' },
+                { title: 'Implement main feature logic', desc: 'Build the single most important thing the app does. Everything else can wait.' },
+                { title: 'Add data persistence (local storage / database)', desc: 'Decide early: on-device only, cloud sync, or both? This affects architecture significantly.' },
+                { title: 'Implement monetisation (IAP / ads / subscription)', desc: 'Test purchases end-to-end in sandbox mode before submitting.' },
+                { title: 'Polish UI — animations, edge cases, empty states', desc: 'This is where good apps become great. Handle loading, error, and empty states gracefully.' },
+                { title: 'Test on real devices & multiple OS versions', desc: 'Simulators miss real-world issues like performance, camera, and push notifications.' },
+            ]
+        },
+        {
+            id: 'phase4',
+            title: 'Store Preparation',
+            steps: [
+                { title: 'Write app store description & keywords', desc: 'Short blurb, long description, and the keyword field. Front-load benefits, not features.' },
+                { title: 'Create screenshots & preview video', desc: 'Cover all required device sizes for each platform. Screenshots are your storefront — make them count.' },
+                { title: 'Set up privacy policy & support URL', desc: 'Both platforms require these. Serieworks already has a privacy policy page you can link to.' },
+                { title: 'Configure pricing, availability & age rating', desc: 'Double-check territories, release date scheduling, and age rating questionnaire answers.' },
+                { title: 'Submit for review', desc: 'Allow 1–3 days for App Store review. Play Store is typically faster. Have a fix plan ready.' },
+            ]
+        },
+        {
+            id: 'phase5',
+            title: 'Launch & Post-Launch',
+            steps: [
+                { title: 'Add the app to serieworks.com', desc: 'Update apps.json and drop the app image into assets/app_img/.' },
+                { title: 'Share on social media & relevant communities', desc: 'Reddit, X, Hacker News, Product Hunt, and niche communities related to the app\'s topic.' },
+                { title: 'Monitor reviews & crash reports', desc: 'Check the developer console daily in the first week. Responding to reviews shows you care.' },
+                { title: 'Plan & ship first update based on feedback', desc: 'Prioritise the top user complaints and most-requested features. Aim to ship within 2–4 weeks.' },
+            ]
+        },
+    ];
+
+    function loadState() {
+        try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || null; } catch { return null; }
+    }
+    function saveState(sections) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(sections));
+    }
+
+    let sections = loadState() || JSON.parse(JSON.stringify(DEFAULT_SECTIONS));
+
+    let saveTimer = null;
+    function scheduleSave() {
+        clearTimeout(saveTimer);
+        saveTimer = setTimeout(() => saveState(sections), 400);
+    }
+
+    function makeEditable(el, sectionIdx, stepIdx, field) {
+        el.contentEditable = 'true';
+        el.spellcheck = false;
+        el.addEventListener('input', () => {
+            sections[sectionIdx].steps[stepIdx][field] = el.textContent;
+            scheduleSave();
+        });
+        el.addEventListener('keydown', e => {
+            if (e.key === 'Enter') { e.preventDefault(); el.blur(); }
+        });
+    }
+
+    function makeSectionTitleEditable(el, sectionIdx) {
+        el.contentEditable = 'true';
+        el.spellcheck = false;
+        el.addEventListener('input', () => {
+            sections[sectionIdx].title = el.textContent;
+            // Update sidebar link text
+            const sidebarLink = document.querySelector(`#sidebarNav a[data-section="${sections[sectionIdx].id}"] .sidebar-label`);
+            if (sidebarLink) sidebarLink.textContent = el.textContent;
+            scheduleSave();
+        });
+        el.addEventListener('keydown', e => {
+            if (e.key === 'Enter') { e.preventDefault(); el.blur(); }
+        });
+    }
+
+    function renderStep(step, sectionIdx, stepIdx) {
+        const li = document.createElement('li');
+        li.className = 'docs-step';
+
+        const stepLeft = document.createElement('div');
+        stepLeft.className = 'step-left';
+        const num = document.createElement('span');
+        num.className = 'step-num';
+        num.textContent = stepIdx + 1;
+        stepLeft.appendChild(num);
+
+        const body = document.createElement('div');
+        body.className = 'step-body';
+        body.style.position = 'relative';
+
+        const titleEl = document.createElement('span');
+        titleEl.className = 'step-title';
+        titleEl.textContent = step.title;
+        titleEl.dataset.placeholder = 'Step title…';
+        makeEditable(titleEl, sectionIdx, stepIdx, 'title');
+
+        const descEl = document.createElement('p');
+        descEl.className = 'step-desc';
+        descEl.textContent = step.desc;
+        descEl.dataset.placeholder = 'Add a description…';
+        makeEditable(descEl, sectionIdx, stepIdx, 'desc');
+
+        // Delete button
+        const toolbar = document.createElement('div');
+        toolbar.className = 'step-toolbar';
+        const delBtn = document.createElement('button');
+        delBtn.className = 'step-delete';
+        delBtn.title = 'Delete step';
+        delBtn.innerHTML = '&times;';
+        delBtn.addEventListener('click', () => {
+            sections[sectionIdx].steps.splice(stepIdx, 1);
+            saveState(sections);
+            renderGuide();
+        });
+        toolbar.appendChild(delBtn);
+
+        body.appendChild(titleEl);
+        body.appendChild(descEl);
+        body.appendChild(toolbar);
+
+        li.appendChild(stepLeft);
+        li.appendChild(body);
+        return li;
+    }
+
+    function renderSection(section, sectionIdx) {
+        const sec = document.createElement('section');
+        sec.className = 'docs-section';
+        sec.id = section.id;
+
+        const h2 = document.createElement('h2');
+        h2.className = 'docs-section-title';
+
+        const badge = document.createElement('span');
+        badge.className = 'docs-section-badge';
+        badge.textContent = 'Phase ' + (sectionIdx + 1);
+
+        const nameEl = document.createElement('span');
+        nameEl.className = 'section-name';
+        nameEl.textContent = section.title;
+        nameEl.dataset.placeholder = 'Phase name…';
+        makeSectionTitleEditable(nameEl, sectionIdx);
+
+        h2.appendChild(badge);
+        h2.appendChild(nameEl);
+        sec.appendChild(h2);
+
+        const ol = document.createElement('ol');
+        ol.className = 'docs-steps';
+        section.steps.forEach((step, stepIdx) => {
+            ol.appendChild(renderStep(step, sectionIdx, stepIdx));
+        });
+        sec.appendChild(ol);
+
+        // Add step button
+        const addBtn = document.createElement('button');
+        addBtn.className = 'add-step-btn';
+        addBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg> Add step';
+        addBtn.addEventListener('click', () => {
+            sections[sectionIdx].steps.push({ title: '', desc: '' });
+            saveState(sections);
+            renderGuide();
+            // Focus the new step's title
+            setTimeout(() => {
+                const allSteps = document.querySelectorAll(`#${section.id} .step-title`);
+                const last = allSteps[allSteps.length - 1];
+                if (last) last.focus();
+            }, 50);
+        });
+        sec.appendChild(addBtn);
+
+        return sec;
+    }
+
+    function renderSidebar() {
+        const nav = document.getElementById('sidebarNav');
+        nav.innerHTML = '';
+        sections.forEach((section, i) => {
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            a.href = '#' + section.id;
+            a.dataset.section = section.id;
+
+            const dot = document.createElement('span');
+            dot.className = 'phase-dot';
+            dot.textContent = i + 1;
+
+            const label = document.createElement('span');
+            label.className = 'sidebar-label';
+            label.textContent = section.title;
+
+            a.appendChild(dot);
+            a.appendChild(label);
+            li.appendChild(a);
+            nav.appendChild(li);
+        });
+    }
+
+    function renderGuide() {
+        const main = document.getElementById('guideMain');
+        // Keep breadcrumb, title, subtitle
+        const staticEls = main.querySelectorAll('.docs-breadcrumb, .docs-title, .docs-subtitle');
+        // Remove old sections
+        main.querySelectorAll('.docs-section').forEach(el => el.remove());
+
+        sections.forEach((section, i) => {
+            main.appendChild(renderSection(section, i));
+        });
+
+        renderSidebar();
+        initScrollSpy();
+    }
+
+    function initScrollSpy() {
+        if (window._scrollSpyObserver) window._scrollSpyObserver.disconnect();
+        const sidebarLinks = document.querySelectorAll('#sidebarNav a[data-section]');
+        const obs = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    sidebarLinks.forEach(a => a.classList.remove('active'));
+                    const active = document.querySelector('#sidebarNav a[data-section="' + entry.target.id + '"]');
+                    if (active) active.classList.add('active');
+                }
+            });
+        }, { rootMargin: '-20% 0px -70% 0px' });
+        document.querySelectorAll('.docs-section').forEach(s => obs.observe(s));
+        window._scrollSpyObserver = obs;
+    }
+
+    document.getElementById('resetGuide').addEventListener('click', () => {
+        if (confirm('Reset all sections and steps to the defaults? This cannot be undone.')) {
+            sections = JSON.parse(JSON.stringify(DEFAULT_SECTIONS));
+            saveState(sections);
+            renderGuide();
+        }
+    });
+
+    renderGuide();
+    </script>
+</body>
+</html>

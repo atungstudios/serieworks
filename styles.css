@@ -442,6 +442,9 @@ h1 {
     box-shadow: none;
     border-bottom: 1px solid #f0f0f0;
     margin-bottom: 0;
+    position: sticky;
+    top: 0;
+    z-index: 200;
 }
 .header-content {
     max-width: 100%;
