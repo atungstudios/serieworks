@@ -83,6 +83,19 @@
             transition: color 0.15s;
         }
         .sidebar-reset:hover { color: #ef4444; }
+        .sidebar-export {
+            display: block;
+            padding: 6px 16px;
+            font-size: 0.78rem;
+            color: #b0b8c4;
+            cursor: pointer;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            transition: color 0.15s;
+        }
+        .sidebar-export:hover { color: #667eea; }
 
         /* Main content */
         .docs-content { flex: 1; min-width: 0; padding: 36px 0 36px 52px; }
@@ -259,6 +272,7 @@
             <hr class="sidebar-divider">
             <p class="sidebar-hint">Click any text to edit it. Changes are saved automatically.</p>
             <button class="sidebar-reset" id="resetGuide">&#8635; Reset to defaults</button>
+            <button class="sidebar-export" id="exportGuide">&#8599; Copy as default content</button>
         </aside>
 
         <main class="docs-content" id="guideMain">
@@ -278,60 +292,109 @@
     const STORAGE_KEY = 'guide_v3';
 
     const DEFAULT_SECTIONS = [
-        {
-            id: 'phase1',
-            title: 'Idea & Research',
-            steps: [
-                { title: 'Define the app idea & the core problem it solves', desc: 'Write one sentence: what it does and who it\'s for.' },
-                { title: 'Research competitors on the App Store / Play Store', desc: 'Identify gaps, read common complaints in reviews, and note pricing strategies.' },
-                { title: 'Decide on target platform(s) and monetisation model', desc: 'iOS / Android / both — free, IAP, subscription, or paid upfront.' },
-                { title: 'Choose the app name & check availability', desc: 'Check the App Store, Play Store, domain registrars, and key social handles.' },
-            ]
-        },
-        {
-            id: 'phase2',
-            title: 'Planning & Design',
-            steps: [
-                { title: 'List MVP features — core only, no extras', desc: 'Ruthlessly cut anything that isn\'t essential to the core loop. Save nice-to-haves for v2.' },
-                { title: 'Sketch screen flows & wireframes', desc: 'Paper sketches or a quick Figma / Excalidraw flow. Focus on navigation and the main user journey.' },
-                { title: 'Create app icon & choose colour palette / fonts', desc: 'The icon is your most visible marketing asset. Aim for something distinctive at small sizes.' },
-                { title: 'Set up the project repo & folder structure', desc: 'Git init, .gitignore, and a clear README. Commit early and often.' },
-            ]
-        },
-        {
-            id: 'phase3',
-            title: 'Development',
-            steps: [
-                { title: 'Build core screens & navigation', desc: 'Get the skeleton of the app running first — tabs, stacks, and the main flow.' },
-                { title: 'Implement main feature logic', desc: 'Build the single most important thing the app does. Everything else can wait.' },
-                { title: 'Add data persistence (local storage / database)', desc: 'Decide early: on-device only, cloud sync, or both? This affects architecture significantly.' },
-                { title: 'Implement monetisation (IAP / ads / subscription)', desc: 'Test purchases end-to-end in sandbox mode before submitting.' },
-                { title: 'Polish UI — animations, edge cases, empty states', desc: 'This is where good apps become great. Handle loading, error, and empty states gracefully.' },
-                { title: 'Test on real devices & multiple OS versions', desc: 'Simulators miss real-world issues like performance, camera, and push notifications.' },
-            ]
-        },
-        {
-            id: 'phase4',
-            title: 'Store Preparation',
-            steps: [
-                { title: 'Write app store description & keywords', desc: 'Short blurb, long description, and the keyword field. Front-load benefits, not features.' },
-                { title: 'Create screenshots & preview video', desc: 'Cover all required device sizes for each platform. Screenshots are your storefront — make them count.' },
-                { title: 'Set up privacy policy & support URL', desc: 'Both platforms require these. Serieworks already has a privacy policy page you can link to.' },
-                { title: 'Configure pricing, availability & age rating', desc: 'Double-check territories, release date scheduling, and age rating questionnaire answers.' },
-                { title: 'Submit for review', desc: 'Allow 1–3 days for App Store review. Play Store is typically faster. Have a fix plan ready.' },
-            ]
-        },
-        {
-            id: 'phase5',
-            title: 'Launch & Post-Launch',
-            steps: [
-                { title: 'Add the app to serieworks.com', desc: 'Update apps.json and drop the app image into assets/app_img/.' },
-                { title: 'Share on social media & relevant communities', desc: 'Reddit, X, Hacker News, Product Hunt, and niche communities related to the app\'s topic.' },
-                { title: 'Monitor reviews & crash reports', desc: 'Check the developer console daily in the first week. Responding to reviews shows you care.' },
-                { title: 'Plan & ship first update based on feedback', desc: 'Prioritise the top user complaints and most-requested features. Aim to ship within 2–4 weeks.' },
-            ]
-        },
-    ];
+    {
+        "id": "phase1",
+        "title": "App Idea",
+        "steps": [
+            {
+                "title": "Identify Problem",
+                "desc": "Identify a real-world problem that can be solved with a mobile app."
+            },
+            {
+                "title": "Use AI to brainstorm app ideas to solve the problem",
+                "desc": "Use Germini, Grok, and ChatGPT.  Make a list of the most interesting ones."
+            },
+            {
+                "title": "Select Idea",
+                "desc": "Select the final idea to implement."
+            },
+            {
+                "title": "Use AI to brainstorm app name ideas",
+                "desc": "Use the generated names to come up with a unique name for the app."
+            }
+        ]
+    },
+    {
+        "id": "phase2",
+        "title": "Vibe Coding Prompt",
+        "steps": [
+            {
+                "title": "Generic Prompt",
+                "desc": "Interactive with AI to come up with a prompt for Claude.  Ensure space for creativity."
+            },
+            {
+                "title": "3 Rules of Refinement",
+                "desc": "<ul><li>Ask \"What's Missing?\": Before asking for a rewrite, ask the AI: \"What details or edge cases did I forget to include in my original vision?\" This forces it to consider error states and deeper logic.</li><li>The \"Anti-Pattern\" Guardrail: Explicitly tell the AI what not to do (e.g., \"Do not use standard shadows; use layered colored glows instead\").</li><li>Chain-of-Thought Design: Ask the AI to \"explain the design theory\" behind its choices before it writes the code. This ensures the \"Aesthetic Signature\" is intentional, not random.</li></ul>"
+            },
+            {
+                "title": "Freemium / Pro Features",
+                "desc": "<div><span style=\"font-size: 0.83rem; font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;\">Make sure to include all essential features in the prompt.&nbsp;</span><span style=\"font-size: 0.83rem; font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;\">&nbsp;</span><span style=\"font-size: 0.83rem; font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;\">Decide which ones are free and which are pro only:</span></div><div><div><ul><li>Switching themes</li><li>Export to JSON</li><li>Analysis and Reports</li></ul><div>Make use IAP has Restore Purchase function.</div></div></div>"
+            }
+        ]
+    },
+    {
+        "id": "phase3",
+        "title": "Development",
+        "steps": [
+            {
+                "title": "Start Vibe Coding",
+                "desc": "Create folder for the app, open in VSCode, start prompting with the prompts from section 2."
+            },
+            {
+                "title": "Testing",
+                "desc": "Use simulator or physical device to test if any errors and improvements can be made or additional features can be added."
+            },
+            {
+                "title": "Iterate",
+                "desc": "iterate steps 1 and 2 to refine the app."
+            }
+        ]
+    },
+    {
+        "id": "phase4",
+        "title": "Submit for Review",
+        "steps": [
+            {
+                "title": "Build",
+                "desc": "Build the IPA of the app within VSCode."
+            },
+            {
+                "title": "Archive",
+                "desc": "Use XCode to archive the build."
+            },
+            {
+                "title": "Distribute",
+                "desc": "Distribute the build to App Store Connect."
+            },
+            {
+                "title": "Submit",
+                "desc": "Configure the app on App Store Connect and submit for review."
+            }
+        ]
+    },
+    {
+        "id": "phase5",
+        "title": "Launch & Post-Launch",
+        "steps": [
+            {
+                "title": "Add the app to serieworks.com",
+                "desc": "Update apps.json and drop the app image into assets/app_img/."
+            },
+            {
+                "title": "Share on social media & relevant communities",
+                "desc": "Reddit, X, Hacker News, Product Hunt, and niche communities related to the app's topic."
+            },
+            {
+                "title": "Monitor reviews & crash reports",
+                "desc": "Check the developer console daily in the first week. Responding to reviews shows you care."
+            },
+            {
+                "title": "Plan & ship first update based on feedback",
+                "desc": "Prioritise the top user complaints and most-requested features. Aim to ship within 2–4 weeks."
+            }
+        ]
+    }
+];
 
     function loadState() {
         try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || null; } catch { return null; }
@@ -587,6 +650,18 @@
         document.querySelectorAll('.docs-section').forEach(s => obs.observe(s));
         window._scrollSpyObserver = obs;
     }
+
+    document.getElementById('exportGuide').addEventListener('click', () => {
+        const json = JSON.stringify(sections, null, 4);
+        const code = 'const DEFAULT_SECTIONS = ' + json + ';';
+        navigator.clipboard.writeText(code).then(() => {
+            const btn = document.getElementById('exportGuide');
+            const orig = btn.textContent;
+            btn.textContent = '✓ Copied!';
+            btn.style.color = '#10b981';
+            setTimeout(() => { btn.textContent = orig; btn.style.color = ''; }, 2000);
+        });
+    });
 
     document.getElementById('resetGuide').addEventListener('click', () => {
         if (confirm('Reset all sections and steps to the defaults? This cannot be undone.')) {
