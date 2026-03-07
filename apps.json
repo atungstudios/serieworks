@@ -151,5 +151,23 @@
     "playStore": "#",
     "image": "assets/app_img/watermation.png",
     "status": "production"
+  },
+  {
+    "title": "Discount Diary",
+    "category": "lifestyle",
+    "description": "Never miss a sale again. Log discounts, uncover store patterns, and let your diary tell you the perfect moment to buy. Smart shopping starts here.",
+    "appStore": "https://apps.apple.com/us/app/discount-diary/id6759974683",
+    "playStore": "#",
+    "image": "assets/app_img/discountdiary.png",
+    "status": "production"
+  },
+  {
+    "title": "Stuf Simple Budget",
+    "category": "finance",
+    "description": "Digital cash stuffing made simple. Track spending by envelope, see your history, and stay on budget \u2014 every month.",
+    "appStore": "https://apps.apple.com/us/app/stuf-simple-budget/id6759833891",
+    "playStore": "#",
+    "image": "assets/app_img/stuf.png",
+    "status": "production"
   }
 ]
