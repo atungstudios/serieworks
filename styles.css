@@ -447,12 +447,14 @@ h1 {
     z-index: 200;
 }
 .header-content {
-    max-width: 100%;
-    margin: 0;
-    padding: 0 8px;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 32px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    box-sizing: border-box;
+    width: 100%;
 }
 .header-logo {
     font-size: 1.5rem;
