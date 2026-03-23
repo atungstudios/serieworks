@@ -169,5 +169,32 @@
     "playStore": "#",
     "image": "assets/app_img/stuf.png",
     "status": "production"
+  },
+  {
+    "title": "FlashLearn IT",
+    "category": "educational",
+    "description": "Master IT certifications on the go. Bite-sized lessons, practice quizzes, and progress tracking for CCNA, AZ-104, Security+, and more. Study smarter.",
+    "appStore": "https://apps.apple.com/us/app/flashlearn-vocab-beginner/id6760245468",
+    "playStore": "#",
+    "image": "assets/app_img/flashlearn-it.png",
+    "status": "production"
+  },
+  {
+    "title": "FlashLearn JP",
+    "category": "educational",
+    "description": "Master Japanese from hiragana to JLPT N1. Flashcards, quizzes & practice exams for vocab, kanji & grammar. Track your progress and sync across all your devices.",
+    "appStore": "https://apps.apple.com/us/app/flashlearn-vocab-beginner/id6760466485",
+    "playStore": "#",
+    "image": "assets/app_img/flashlearn-jp.png",
+    "status": "production"
+  },
+  {
+    "title": "FlashLearn CN",
+    "category": "educational",
+    "description": "Your Mandarin learning companion! Master HSK 1\u20136 vocabulary, tones & characters with flashcards, quizzes & native audio. Track progress and reach fluency faster.",
+    "appStore": "https://apps.apple.com/us/app/flashlearn-vocab-beginner/id6760469615",
+    "playStore": "#",
+    "image": "assets/app_img/flashlearn-cn.png",
+    "status": "production"
   }
 ]
