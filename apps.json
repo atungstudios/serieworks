@@ -196,5 +196,14 @@
     "playStore": "#",
     "image": "assets/app_img/flashlearn-cn.png",
     "status": "production"
+  },
+  {
+    "title": "Pasu - Pet Passport",
+    "category": "utilities",
+    "description": "Keep every pet's health at your fingertips. Track vaccines, vet visits, weight & medical history. Get reminders before shots are due and export a PDF for your vet.",
+    "appStore": "https://apps.apple.com/us/app/pasu-pet-passport/id6762033650",
+    "playStore": "#",
+    "image": "assets/app_img/Pasu.png",
+    "status": "production"
   }
 ]
