@@ -10,6 +10,7 @@ class AppGallery {
         this.elements = {
             grid: document.getElementById('projectsGrid'),
             searchInput: document.getElementById('searchInput'),
+            typeFilter: document.getElementById('typeFilter'),
             categoryFilter: document.getElementById('categoryFilter'),
             backToTop: document.getElementById('backToTop')
         };
@@ -37,6 +38,7 @@ class AppGallery {
             await this.loadApps();
             this.setupEventListeners();
             this.setupScrollHandler();
+            this.applyFiltersFromUrl();
             this.filterApps();
         } catch (error) {
             this.handleError('Failed to initialize app gallery', error);
@@ -54,11 +56,31 @@ class AppGallery {
             }
             
             const data = await response.json();
-            this.apps = data;
+            this.apps = data.map(record => this.normalizeRecord(record));
             this.filteredApps = this.getProductionApps();
         } catch (error) {
             throw new Error(`Failed to load apps: ${error.message}`);
         }
+    }
+
+    /**
+     * Normalize record shape for backward compatibility
+     */
+    normalizeRecord(record) {
+        const normalized = {
+            ...record,
+            type: record.type === 'website' ? 'website' : 'app'
+        };
+
+        if (normalized.type === 'website') {
+            normalized.websiteUrl = normalized.websiteUrl || '#';
+            normalized.websiteLabel = normalized.websiteLabel || 'Visit Website';
+        } else {
+            normalized.appStore = normalized.appStore || '#';
+            normalized.playStore = normalized.playStore || '#';
+        }
+
+        return normalized;
     }
 
     /**
@@ -78,10 +100,22 @@ class AppGallery {
         this.elements.searchInput.addEventListener('input', 
             this.debounce(this.handleSearch.bind(this), this.config.ui.debounceDelay)
         );
+
+        if (this.elements.typeFilter) {
+            this.elements.typeFilter.addEventListener('change', 
+                this.handleTypeChange.bind(this)
+            );
+        }
         
         this.elements.categoryFilter.addEventListener('change', 
             this.handleCategoryChange.bind(this)
         );
+
+        // Keep filters in sync when navigating browser history.
+        window.addEventListener('popstate', () => {
+            this.applyFiltersFromUrl();
+            this.filterApps(false);
+        });
     }
 
     /**
@@ -115,22 +149,99 @@ class AppGallery {
     }
 
     /**
+     * Handle type filter change
+     */
+    handleTypeChange() {
+        this.filterApps();
+    }
+
+    /**
      * Filter and search apps
      */
-    filterApps() {
+    filterApps(updateUrl = true) {
         const searchTerm = this.elements.searchInput.value.toLowerCase().trim();
+        const selectedType = this.elements.typeFilter ? this.elements.typeFilter.value : 'all';
         const selectedCategory = this.elements.categoryFilter.value;
 
         this.filteredApps = this.getProductionApps().filter(app => {
+            const matchesType = selectedType === 'all' || app.type === selectedType;
             const matchesCategory = selectedCategory === 'all' || app.category === selectedCategory;
-            const matchesSearch = !searchTerm || 
-                app.title.toLowerCase().includes(searchTerm) ||
-                app.description.toLowerCase().includes(searchTerm);
+            const searchableText = [
+                app.title,
+                app.description,
+                app.category,
+                app.type === 'website' ? app.websiteUrl : app.appStore,
+                app.type === 'website' ? app.websiteLabel : app.playStore
+            ]
+                .filter(Boolean)
+                .join(' ')
+                .toLowerCase();
+            const matchesSearch = !searchTerm || searchableText.includes(searchTerm);
             
-            return matchesCategory && matchesSearch;
+            return matchesType && matchesCategory && matchesSearch;
         });
 
+        if (updateUrl) {
+            this.updateUrlFromFilters();
+        }
+
         this.renderApps();
+    }
+
+    /**
+     * Apply filter values from URL query parameters
+     */
+    applyFiltersFromUrl() {
+        const params = new URLSearchParams(window.location.search);
+        const query = params.get('q') || '';
+        const type = params.get('type') || 'all';
+        const category = params.get('category') || 'all';
+
+        this.elements.searchInput.value = query;
+
+        if (this.elements.typeFilter) {
+            this.elements.typeFilter.value = this.isValidSelectValue(this.elements.typeFilter, type) ? type : 'all';
+        }
+
+        this.elements.categoryFilter.value = this.isValidSelectValue(this.elements.categoryFilter, category) ? category : 'all';
+    }
+
+    /**
+     * Persist current filter values into URL query parameters
+     */
+    updateUrlFromFilters() {
+        const url = new URL(window.location.href);
+        const params = url.searchParams;
+
+        const query = this.elements.searchInput.value.trim();
+        const type = this.elements.typeFilter ? this.elements.typeFilter.value : 'all';
+        const category = this.elements.categoryFilter.value;
+
+        this.setQueryParam(params, 'q', query);
+        this.setQueryParam(params, 'type', type, 'all');
+        this.setQueryParam(params, 'category', category, 'all');
+
+        const nextUrl = `${url.pathname}${params.toString() ? `?${params.toString()}` : ''}${url.hash}`;
+        window.history.replaceState({}, '', nextUrl);
+    }
+
+    /**
+     * Validate that a value exists in a select element
+     */
+    isValidSelectValue(selectElement, value) {
+        return Array.from(selectElement.options).some(option => option.value === value);
+    }
+
+    /**
+     * Set or remove a query parameter
+     */
+    setQueryParam(params, key, value, defaultValue = '') {
+        if (!value || value === defaultValue) {
+            params.delete(key);
+            return;
+        }
+
+        params.set(key, value);
     }
 
     /**
@@ -165,26 +276,32 @@ class AppGallery {
      */
     createAppCard(app) {
         const card = document.createElement('div');
-        card.className = 'card';
+        card.className = `card card-type-${app.type}`;
         
-        const imageSrc = this.getAppImage(app);
+        const imageData = this.getCardImageData(app);
         const categoryClass = `card-category ${app.category}`;
         const categoryDisplay = this.formatCategoryName(app.category);
+        const cardImageClass = imageData.isFavicon ? 'card-image website-favicon-shell' : 'card-image';
+        const imageClass = imageData.isFavicon ? 'website-favicon-image' : '';
+        const safePlaceholderImage = this.escapeHtml(this.config.ui.placeholderImage);
 
         card.innerHTML = `
-            <div class="card-image">
-                <img src="${imageSrc}" 
+            <div class="${cardImageClass}">
+                <img src="${this.escapeHtml(imageData.src)}" 
+                     class="${imageClass}"
                      alt="${this.escapeHtml(app.title)} screenshot" 
-                     onerror="this.onerror=null;this.src='${this.config.ui.placeholderImage}';" 
+                     onerror="this.onerror=null;this.src='${safePlaceholderImage}';this.classList.remove('website-favicon-image');this.parentElement.classList.remove('website-favicon-shell');" 
                      ${this.config.features.enableLazyLoading ? 'loading="lazy"' : ''} />
             </div>
             <div class="card-content">
-                <div class="${categoryClass}">${categoryDisplay}</div>
+                <div class="card-meta">
+                    <div class="${categoryClass}">${categoryDisplay}</div>
+                    ${this.createTypeBadge(app.type)}
+                </div>
                 <div class="card-title" title="${this.escapeHtml(app.title)}">${this.escapeHtml(app.title)}</div>
                 <div class="card-desc" title="${this.escapeHtml(app.description)}">${this.escapeHtml(app.description)}</div>
                 <div class="card-links">
-                    ${this.createStoreBadge('appStore', app.appStore)}
-                    ${this.createStoreBadge('googlePlay', app.playStore)}
+                    ${this.createCardLinks(app)}
                 </div>
             </div>
         `;
@@ -193,10 +310,85 @@ class AppGallery {
     }
 
     /**
+     * Create a card type badge
+     */
+    createTypeBadge(type) {
+        const label = type === 'website' ? 'Website' : 'App';
+        return `<span class="card-kind card-kind-${type}">${label}</span>`;
+    }
+
+    /**
+     * Create card action links based on record type
+     */
+    createCardLinks(app) {
+        if (app.type === 'website') {
+            return this.createWebsiteLink(app.websiteUrl, app.websiteLabel);
+        }
+
+        return `${this.createStoreBadge('appStore', app.appStore)}${this.createStoreBadge('googlePlay', app.playStore)}`;
+    }
+
+    /**
+     * Create website action button
+     */
+    createWebsiteLink(url, label) {
+        const safeLabel = this.escapeHtml(label || 'Visit Website');
+        const isActive = url && url !== '#';
+
+        if (!isActive) {
+            return `<span class="website-link-button disabled" aria-disabled="true">${safeLabel}</span>`;
+        }
+
+        return `<a href="${this.escapeHtml(url)}" target="_blank" rel="noopener noreferrer" class="website-link-button">${safeLabel}</a>`;
+    }
+
+    /**
      * Get app image with fallback
      */
-    getAppImage(app) {
-        return app.image && app.image.trim() !== '' ? app.image : this.config.ui.placeholderImage;
+    getCardImageData(app) {
+        if (app.image && app.image.trim() !== '' && app.image !== '#') {
+            return {
+                src: app.image,
+                isFavicon: false
+            };
+        }
+
+        if (app.type === 'website') {
+            const faviconUrl = this.getWebsiteFaviconUrl(app.websiteUrl);
+            if (faviconUrl) {
+                return {
+                    src: faviconUrl,
+                    isFavicon: true
+                };
+            }
+        }
+
+        return {
+            src: this.config.ui.placeholderImage,
+            isFavicon: false
+        };
+    }
+
+    /**
+     * Build a favicon URL from website URL
+     */
+    getWebsiteFaviconUrl(websiteUrl) {
+        if (!websiteUrl || websiteUrl === '#') {
+            return null;
+        }
+
+        try {
+            const normalizedUrl = /^https?:\/\//i.test(websiteUrl) ? websiteUrl : `https://${websiteUrl}`;
+            const parsedUrl = new URL(normalizedUrl);
+
+            if (!['http:', 'https:'].includes(parsedUrl.protocol)) {
+                return null;
+            }
+
+            return `https://www.google.com/s2/favicons?domain=${encodeURIComponent(parsedUrl.hostname)}&sz=256`;
+        } catch (error) {
+            return null;
+        }
     }
 
     /**
@@ -306,7 +498,7 @@ class AppGallery {
     renderNoResults() {
         this.elements.grid.innerHTML = `
             <div class="no-results">
-                <p>No apps found matching your criteria.</p>
+                <p>No records found matching your criteria.</p>
                 <p>Try adjusting your search or filter options.</p>
             </div>
         `;
@@ -388,8 +580,9 @@ class AppGallery {
      */
     showQRModal(storeLink, badgeElement) {
         // Find the app title from the badge's parent card
-        const appCard = badgeElement.closest('.app-card');
-        const appTitle = appCard ? appCard.querySelector('h3').textContent : 'Mobile App';
+        const appCard = badgeElement.closest('.card');
+        const titleElement = appCard ? appCard.querySelector('.card-title') : null;
+        const appTitle = titleElement ? titleElement.textContent : 'Mobile App';
         
         // Update modal content
         document.getElementById('qrModalTitle').textContent = `Get ${appTitle}`;

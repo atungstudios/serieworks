@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Script to add a new app to apps.json
+# Script to add a new record to apps.json
 # Usage: ./add-app.sh
 
 # Colors for better UX
@@ -11,11 +11,22 @@ RED='\033[0;31m'
 NC='\033[0m' # No Color
 
 echo -e "${BLUE}════════════════════════════════════════${NC}"
-echo -e "${BLUE}    Add New App to Serieworks Website${NC}"
+echo -e "${BLUE}    Add New Record to Serieworks Website${NC}"
 echo -e "${BLUE}════════════════════════════════════════${NC}\n"
 
-# Prompt for app information
-echo -e "${GREEN}App Title:${NC}"
+# Prompt for record type
+echo -e "${GREEN}Record Type:${NC}"
+echo "  Options: app, website"
+read -p "> " type
+type=${type:-app}
+
+if [[ "$type" != "app" && "$type" != "website" ]]; then
+    echo -e "${RED}Invalid type. Please use 'app' or 'website'.${NC}"
+    exit 1
+fi
+
+# Prompt for common record information
+echo -e "\n${GREEN}Title:${NC}"
 read -p "> " title
 
 echo -e "\n${GREEN}Category:${NC}"
@@ -25,28 +36,46 @@ read -p "> " category
 echo -e "\n${GREEN}Description:${NC}"
 read -p "> " description
 
-echo -e "\n${GREEN}App Store URL (or # if not available):${NC}"
-read -p "> " appStore
-# Default to # if empty
-appStore=${appStore:-#}
+if [ "$type" = "app" ]; then
+    echo -e "\n${GREEN}App Store URL (or # if not available):${NC}"
+    read -p "> " appStore
+    appStore=${appStore:-#}
 
-echo -e "\n${GREEN}Play Store URL (or # if not available):${NC}"
-read -p "> " playStore
-# Default to # if empty
-playStore=${playStore:-#}
+    echo -e "\n${GREEN}Play Store URL (or # if not available):${NC}"
+    read -p "> " playStore
+    playStore=${playStore:-#}
+else
+    echo -e "\n${GREEN}Website URL (or # if not available):${NC}"
+    read -p "> " websiteUrl
+    websiteUrl=${websiteUrl:-#}
+
+    echo -e "\n${GREEN}Website Button Label:${NC}"
+    echo "  Example: Visit Website"
+    read -p "> " websiteLabel
+    websiteLabel=${websiteLabel:-Visit Website}
+fi
 
 echo -e "\n${GREEN}Image filename (will be saved in assets/app_img/):${NC}"
 echo "  Example: my_app.png"
+if [ "$type" = "website" ]; then
+    echo "  Leave blank to auto-use website favicon"
+fi
 read -p "> " imageFile
 
-# Default to snake_case version of title if empty
+# Default image behavior by record type
 if [ -z "$imageFile" ]; then
-    imageFile=$(echo "$title" | tr '[:upper:]' '[:lower:]' | tr ' ' '_' | sed 's/[^a-z0-9_]//g')
-    imageFile="${imageFile}.png"
-    echo -e "${YELLOW}  Using default: $imageFile${NC}"
+    if [ "$type" = "website" ]; then
+        imagePath=""
+        echo -e "${YELLOW}  Using default: website favicon${NC}"
+    else
+        imageFile=$(echo "$title" | tr '[:upper:]' '[:lower:]' | tr ' ' '_' | sed 's/[^a-z0-9_]//g')
+        imageFile="${imageFile}.png"
+        echo -e "${YELLOW}  Using default: $imageFile${NC}"
+        imagePath="assets/app_img/$imageFile"
+    fi
+else
+    imagePath="assets/app_img/$imageFile"
 fi
-
-imagePath="assets/app_img/$imageFile"
 
 echo -e "\n${GREEN}Status:${NC}"
 echo "  Options: production, in-progress"
@@ -56,44 +85,37 @@ status=${status:-in-progress}
 
 # Show summary
 echo -e "\n${BLUE}════════════════════════════════════════${NC}"
-echo -e "${BLUE}         App Information Summary${NC}"
+echo -e "${BLUE}       Record Information Summary${NC}"
 echo -e "${BLUE}════════════════════════════════════════${NC}"
+echo -e "Type:         ${YELLOW}$type${NC}"
 echo -e "Title:        ${YELLOW}$title${NC}"
 echo -e "Category:     ${YELLOW}$category${NC}"
 echo -e "Description:  ${YELLOW}$description${NC}"
-echo -e "App Store:    ${YELLOW}$appStore${NC}"
-echo -e "Play Store:   ${YELLOW}$playStore${NC}"
+if [ "$type" = "app" ]; then
+    echo -e "App Store:    ${YELLOW}$appStore${NC}"
+    echo -e "Play Store:   ${YELLOW}$playStore${NC}"
+else
+    echo -e "Website URL:  ${YELLOW}$websiteUrl${NC}"
+    echo -e "Button Label: ${YELLOW}$websiteLabel${NC}"
+fi
 echo -e "Image:        ${YELLOW}$imagePath${NC}"
 echo -e "Status:       ${YELLOW}$status${NC}"
 echo -e "${BLUE}════════════════════════════════════════${NC}\n"
 
 # Confirm
-read -p "Add this app to apps.json? (y/N): " confirm
+read -p "Add this record to apps.json? (y/N): " confirm
 if [[ ! $confirm =~ ^[Yy]$ ]]; then
     echo -e "${RED}Cancelled.${NC}"
     exit 0
 fi
 
-# Create temporary file with new app entry
-newApp=$(cat <<EOF
-  {
-    "title": "$title",
-    "category": "$category",
-    "description": "$description",
-    "appStore": "$appStore",
-    "playStore": "$playStore",
-    "image": "$imagePath",
-    "status": "$status"
-  }
-EOF
-)
-
 # Backup original file
 cp apps.json apps.json.backup
 
-# Use Python to properly add the new app to the JSON array
-python3 - <<PYTHON_SCRIPT
+# Use Python to properly add the new record to the JSON array
+TYPE="$type" TITLE="$title" CATEGORY="$category" DESCRIPTION="$description" APP_STORE="$appStore" PLAY_STORE="$playStore" WEBSITE_URL="$websiteUrl" WEBSITE_LABEL="$websiteLabel" IMAGE_PATH="$imagePath" STATUS="$status" python3 - <<'PYTHON_SCRIPT'
 import json
+import os
 import sys
 
 try:
@@ -101,19 +123,26 @@ try:
     with open('apps.json', 'r') as f:
         apps = json.load(f)
     
-    # Create new app object
-    new_app = {
-        "title": "$title",
-        "category": "$category",
-        "description": "$description",
-        "appStore": "$appStore",
-        "playStore": "$playStore",
-        "image": "$imagePath",
-        "status": "$status"
+    # Create new record object
+    record_type = os.environ.get("TYPE", "app")
+    new_record = {
+        "type": record_type,
+        "title": os.environ.get("TITLE", ""),
+        "category": os.environ.get("CATEGORY", ""),
+        "description": os.environ.get("DESCRIPTION", ""),
+        "image": os.environ.get("IMAGE_PATH", ""),
+        "status": os.environ.get("STATUS", "in-progress")
     }
+
+    if record_type == "website":
+        new_record["websiteUrl"] = os.environ.get("WEBSITE_URL", "#")
+        new_record["websiteLabel"] = os.environ.get("WEBSITE_LABEL", "Visit Website")
+    else:
+        new_record["appStore"] = os.environ.get("APP_STORE", "#")
+        new_record["playStore"] = os.environ.get("PLAY_STORE", "#")
     
-    # Add new app
-    apps.append(new_app)
+    # Add new record
+    apps.append(new_record)
     
     # Write back with proper formatting
     with open('apps.json', 'w') as f:
@@ -127,13 +156,13 @@ except Exception as e:
 PYTHON_SCRIPT
 
 if [ $? -eq 0 ]; then
-    echo -e "\n${GREEN}✓ App added successfully!${NC}"
+    echo -e "\n${GREEN}✓ Record added successfully!${NC}"
     echo -e "${YELLOW}⚠ Don't forget to:${NC}"
-    echo -e "  1. Add the app image to ${BLUE}assets/app_img/$imageFile${NC}"
-    echo -e "  2. Commit your changes: ${BLUE}git add . && git commit -m 'Add $title app'${NC}"
+    echo -e "  1. Add the image to ${BLUE}assets/app_img/$imageFile${NC}"
+    echo -e "  2. Commit your changes: ${BLUE}git add . && git commit -m 'Add $title record'${NC}"
     echo -e "  3. Push to GitHub: ${BLUE}git push${NC}\n"
 else
-    echo -e "\n${RED}✗ Failed to add app. Restoring backup...${NC}"
+    echo -e "\n${RED}✗ Failed to add record. Restoring backup...${NC}"
     mv apps.json.backup apps.json
     exit 1
 fi

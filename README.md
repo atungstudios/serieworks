@@ -112,15 +112,24 @@ ui: {
 
 ```json
 {
+  "type": "app|website",
   "title": "App Name",
   "category": "educational|game|productivity|etc",
   "description": "App description",
   "appStore": "https://apps.apple.com/...",
-  "playStore": "https://play.google.com/...", 
+  "playStore": "https://play.google.com/...",
+  "websiteUrl": "https://example.com",
+  "websiteLabel": "Visit Website",
   "image": "assets/app-screenshot.png",
   "status": "production|in-progress|beta"
 }
 ```
+
+Notes:
+- `type: app` uses `appStore` and `playStore` action badges.
+- `type: website` uses `websiteUrl` and optional `websiteLabel` action button.
+- `type: website` can leave `image` empty to auto-resolve favicon from `websiteUrl`.
+- Existing records without `type` default to `app` automatically in `script.js`.
 
 ## ♿ Accessibility Features
 

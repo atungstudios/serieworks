@@ -44,8 +44,13 @@
             <div class="controls">
                 <input type="text" 
                        id="searchInput" 
-                       placeholder="Search apps..." 
-                       aria-label="Search applications">
+                      placeholder="Search apps and websites..." 
+                      aria-label="Search records">
+                <select id="typeFilter" aria-label="Filter by type">
+                    <option value="all">All Types</option>
+                    <option value="app">App</option>
+                    <option value="website">Website</option>
+                </select>
                 <select id="categoryFilter" aria-label="Filter by category">
                     <option value="all">All</option>
                     <option value="educational">Educational</option>

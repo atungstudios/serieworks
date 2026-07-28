@@ -205,5 +205,15 @@
     "playStore": "#",
     "image": "assets/app_img/Pasu.png",
     "status": "production"
+  },
+  {
+    "type": "website",
+    "title": "PupPins",
+    "category": "lifestyle",
+    "description": "Find pet-friendly restaurants in Hong Kong.",
+    "image": "",
+    "status": "production",
+    "websiteUrl": "https://puppins.serieworks.com",
+    "websiteLabel": "Visist PupPins"
   }
 ]
