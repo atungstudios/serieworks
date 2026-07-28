@@ -211,7 +211,7 @@
     "title": "PupPins",
     "category": "lifestyle",
     "description": "Find pet-friendly restaurants in Hong Kong.",
-    "image": "",
+    "image": "assets/app_img/puppins.png",
     "status": "production",
     "websiteUrl": "https://puppins.serieworks.com",
     "websiteLabel": "Visist PupPins"
