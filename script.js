@@ -88,9 +88,18 @@ class AppGallery {
      */
     getProductionApps() {
         if (this.config.features.showOnlyProduction) {
-            return this.apps.filter(app => app.status === 'production');
+            return this.sortAppsMostRecentFirst(
+                this.apps.filter(app => app.status === 'production')
+            );
         }
-        return this.apps;
+        return this.sortAppsMostRecentFirst(this.apps);
+    }
+
+    /**
+     * Return apps in newest-first order based on source JSON position.
+     */
+    sortAppsMostRecentFirst(apps) {
+        return [...apps].reverse();
     }
 
     /**
