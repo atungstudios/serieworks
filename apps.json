@@ -205,25 +205,5 @@
     "playStore": "#",
     "image": "assets/app_img/Pasu.png",
     "status": "production"
-  },
-  {
-    "type": "website",
-    "title": "PupPins",
-    "category": "lifestyle",
-    "description": "Find pet-friendly restaurants in Hong Kong.",
-    "image": "assets/app_img/puppins.png",
-    "status": "production",
-    "websiteUrl": "https://puppins.serieworks.com",
-    "websiteLabel": "Visist PupPins"
-  },
-  {
-    "type": "website",
-    "title": "Kaguya",
-    "category": "educational",
-    "description": "Create your own novel.",
-    "image": "assets/app_img/kaguya.png",
-    "status": "production",
-    "websiteUrl": "https://kaguya.serieworks.com",
-    "websiteLabel": "Visit Kaguya"
   }
 ]
