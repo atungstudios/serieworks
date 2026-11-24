@@ -7,7 +7,7 @@ class AppGallery {
     constructor() {
         this.apps = [];
         this.filteredApps = [];
-        this.viewMode = localStorage.getItem('serieworks-view') === 'compact' ? 'compact' : 'grid';
+        this.viewMode = localStorage.getItem('serieworks-view') || 'compact';
         this.elements = {
             grid: document.getElementById('projectsGrid'),
             searchInput: document.getElementById('searchInput'),
