@@ -744,8 +744,8 @@ body:has(.card-compact:focus-within) .page-dim {
     background: #ffffff;
     color: #9ca3af;
     text-align: center;
-    padding: 16px 0;
-    font-size: 0.85rem;
+    padding: 8px 0;
+    font-size: 0.75rem;
     border-top: 1px solid #f0f0f0;
     position: fixed;
     left: 0;
@@ -753,7 +753,7 @@ body:has(.card-compact:focus-within) .page-dim {
     z-index: 100;
 }
 .footer-spacer {
-    height: 60px;
+    height: 44px;
     width: 100%;
     display: block;
 }
