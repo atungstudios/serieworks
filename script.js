@@ -7,11 +7,14 @@ class AppGallery {
     constructor() {
         this.apps = [];
         this.filteredApps = [];
+        this.viewMode = localStorage.getItem('serieworks-view') === 'compact' ? 'compact' : 'grid';
         this.elements = {
             grid: document.getElementById('projectsGrid'),
             searchInput: document.getElementById('searchInput'),
             typeFilter: document.getElementById('typeFilter'),
             categoryFilter: document.getElementById('categoryFilter'),
+            viewGrid: document.getElementById('viewGrid'),
+            viewCompact: document.getElementById('viewCompact'),
             backToTop: document.getElementById('backToTop')
         };
         
@@ -88,18 +91,18 @@ class AppGallery {
      */
     getProductionApps() {
         if (this.config.features.showOnlyProduction) {
-            return this.sortAppsMostRecentFirst(
+            return this.sortAppsOldestFirst(
                 this.apps.filter(app => app.status === 'production')
             );
         }
-        return this.sortAppsMostRecentFirst(this.apps);
+        return this.sortAppsOldestFirst(this.apps);
     }
 
     /**
-     * Return apps in newest-first order based on source JSON position.
+     * Return apps in oldest-first order based on source JSON position.
      */
-    sortAppsMostRecentFirst(apps) {
-        return [...apps].reverse();
+    sortAppsOldestFirst(apps) {
+        return [...apps];
     }
 
     /**
@@ -119,6 +122,12 @@ class AppGallery {
         this.elements.categoryFilter.addEventListener('change', 
             this.handleCategoryChange.bind(this)
         );
+
+        if (this.elements.viewGrid && this.elements.viewCompact) {
+            this.elements.viewGrid.addEventListener('click', () => this.setView('grid'));
+            this.elements.viewCompact.addEventListener('click', () => this.setView('compact'));
+            this.updateViewToggle();
+        }
 
         // Keep filters in sync when navigating browser history.
         window.addEventListener('popstate', () => {
@@ -254,6 +263,29 @@ class AppGallery {
     }
 
     /**
+     * Switch between grid and compact card views
+     */
+    setView(view) {
+        if (this.viewMode === view) return;
+
+        this.viewMode = view;
+        localStorage.setItem('serieworks-view', view);
+        this.updateViewToggle();
+        this.renderApps();
+    }
+
+    /**
+     * Reflect the current view mode on the toggle buttons
+     */
+    updateViewToggle() {
+        const isGrid = this.viewMode === 'grid';
+        this.elements.viewGrid.classList.toggle('active', isGrid);
+        this.elements.viewGrid.setAttribute('aria-pressed', String(isGrid));
+        this.elements.viewCompact.classList.toggle('active', !isGrid);
+        this.elements.viewCompact.setAttribute('aria-pressed', String(!isGrid));
+    }
+
+    /**
      * Render apps to the grid
      */
     renderApps() {
@@ -261,6 +293,7 @@ class AppGallery {
 
         // Clear existing content
         this.elements.grid.innerHTML = '';
+        this.elements.grid.classList.toggle('grid-compact', this.viewMode === 'compact');
 
         // Show no results message if needed
         if (this.filteredApps.length === 0) {
@@ -272,7 +305,9 @@ class AppGallery {
         const fragment = document.createDocumentFragment();
         
         this.filteredApps.forEach(app => {
-            const card = this.createAppCard(app);
+            const card = this.viewMode === 'compact'
+                ? this.createCompactCard(app)
+                : this.createAppCard(app);
             fragment.appendChild(card);
         });
 
@@ -310,6 +345,41 @@ class AppGallery {
                 <div class="card-title" title="${this.escapeHtml(app.title)}">${this.escapeHtml(app.title)}</div>
                 <div class="card-desc" title="${this.escapeHtml(app.description)}">${this.escapeHtml(app.description)}</div>
                 <div class="card-links">
+                    ${this.createCardLinks(app)}
+                </div>
+            </div>
+        `;
+
+        return card;
+    }
+
+    /**
+     * Create a compact pill-style card: icon left, title and description right.
+     * Full store badges sit at the bottom and are revealed on hover.
+     */
+    createCompactCard(app) {
+        const card = document.createElement('div');
+        card.className = `card-compact card-type-${app.type}`;
+
+        const imageData = this.getCardImageData(app);
+        const categoryClass = `card-category ${app.category}`;
+        const categoryDisplay = this.formatCategoryName(app.category);
+        const safePlaceholderImage = this.escapeHtml(this.config.ui.placeholderImage);
+
+        card.innerHTML = `
+            <div class="card-compact-icon">
+                <img src="${this.escapeHtml(imageData.src)}" 
+                     alt="${this.escapeHtml(app.title)} icon" 
+                     onerror="this.onerror=null;this.src='${safePlaceholderImage}';" 
+                     ${this.config.features.enableLazyLoading ? 'loading="lazy"' : ''} />
+            </div>
+            <div class="card-compact-content">
+                <div class="card-compact-header">
+                    <span class="card-compact-title" title="${this.escapeHtml(app.title)}">${this.escapeHtml(app.title)}</span>
+                    <div class="${categoryClass}">${categoryDisplay}</div>
+                </div>
+                <div class="card-compact-desc" title="${this.escapeHtml(app.description)}">${this.escapeHtml(app.description)}</div>
+                <div class="card-compact-links">
                     ${this.createCardLinks(app)}
                 </div>
             </div>

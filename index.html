@@ -65,10 +65,37 @@
                     <option value="news">News</option>
                     <option value="travel">Travel</option>
                 </select>
+                <div class="view-toggle" role="group" aria-label="View mode">
+                    <button id="viewGrid" 
+                            class="view-toggle-button active" 
+                            aria-pressed="true" 
+                            title="Grid view"
+                            aria-label="Grid view">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <rect x="1" y="1" width="6" height="6" rx="1.5" fill="currentColor"/>
+                            <rect x="9" y="1" width="6" height="6" rx="1.5" fill="currentColor"/>
+                            <rect x="1" y="9" width="6" height="6" rx="1.5" fill="currentColor"/>
+                            <rect x="9" y="9" width="6" height="6" rx="1.5" fill="currentColor"/>
+                        </svg>
+                    </button>
+                    <button id="viewCompact" 
+                            class="view-toggle-button" 
+                            aria-pressed="false" 
+                            title="Compact view"
+                            aria-label="Compact view">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <rect x="1" y="2" width="14" height="2.5" rx="1.25" fill="currentColor"/>
+                            <rect x="1" y="6.75" width="14" height="2.5" rx="1.25" fill="currentColor"/>
+                            <rect x="1" y="11.5" width="14" height="2.5" rx="1.25" fill="currentColor"/>
+                        </svg>
+                    </button>
+                </div>
             </div>
             <div id="projectsGrid" class="grid" role="main" aria-live="polite"></div>
         </div>
     </main>
+
+    <div class="page-dim" aria-hidden="true"></div>
 
     <button id="backToTop" 
             class="back-to-top" 
