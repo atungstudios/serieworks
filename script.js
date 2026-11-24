@@ -7,14 +7,10 @@ class AppGallery {
     constructor() {
         this.apps = [];
         this.filteredApps = [];
-        this.viewMode = localStorage.getItem('serieworks-view') || 'compact';
         this.elements = {
             grid: document.getElementById('projectsGrid'),
             searchInput: document.getElementById('searchInput'),
-            typeFilter: document.getElementById('typeFilter'),
             categoryFilter: document.getElementById('categoryFilter'),
-            viewGrid: document.getElementById('viewGrid'),
-            viewCompact: document.getElementById('viewCompact'),
             backToTop: document.getElementById('backToTop')
         };
         
@@ -70,20 +66,11 @@ class AppGallery {
      * Normalize record shape for backward compatibility
      */
     normalizeRecord(record) {
-        const normalized = {
+        return {
             ...record,
-            type: record.type === 'website' ? 'website' : 'app'
+            appStore: record.appStore || '#',
+            playStore: record.playStore || '#'
         };
-
-        if (normalized.type === 'website') {
-            normalized.websiteUrl = normalized.websiteUrl || '#';
-            normalized.websiteLabel = normalized.websiteLabel || 'Visit Website';
-        } else {
-            normalized.appStore = normalized.appStore || '#';
-            normalized.playStore = normalized.playStore || '#';
-        }
-
-        return normalized;
     }
 
     /**
@@ -113,21 +100,9 @@ class AppGallery {
             this.debounce(this.handleSearch.bind(this), this.config.ui.debounceDelay)
         );
 
-        if (this.elements.typeFilter) {
-            this.elements.typeFilter.addEventListener('change', 
-                this.handleTypeChange.bind(this)
-            );
-        }
-        
         this.elements.categoryFilter.addEventListener('change', 
             this.handleCategoryChange.bind(this)
         );
-
-        if (this.elements.viewGrid && this.elements.viewCompact) {
-            this.elements.viewGrid.addEventListener('click', () => this.setView('grid'));
-            this.elements.viewCompact.addEventListener('click', () => this.setView('compact'));
-            this.updateViewToggle();
-        }
 
         // Keep filters in sync when navigating browser history.
         window.addEventListener('popstate', () => {
@@ -167,36 +142,27 @@ class AppGallery {
     }
 
     /**
-     * Handle type filter change
-     */
-    handleTypeChange() {
-        this.filterApps();
-    }
-
-    /**
      * Filter and search apps
      */
     filterApps(updateUrl = true) {
         const searchTerm = this.elements.searchInput.value.toLowerCase().trim();
-        const selectedType = this.elements.typeFilter ? this.elements.typeFilter.value : 'all';
         const selectedCategory = this.elements.categoryFilter.value;
 
         this.filteredApps = this.getProductionApps().filter(app => {
-            const matchesType = selectedType === 'all' || app.type === selectedType;
             const matchesCategory = selectedCategory === 'all' || app.category === selectedCategory;
             const searchableText = [
                 app.title,
                 app.description,
                 app.category,
-                app.type === 'website' ? app.websiteUrl : app.appStore,
-                app.type === 'website' ? app.websiteLabel : app.playStore
+                app.appStore,
+                app.playStore
             ]
                 .filter(Boolean)
                 .join(' ')
                 .toLowerCase();
             const matchesSearch = !searchTerm || searchableText.includes(searchTerm);
             
-            return matchesType && matchesCategory && matchesSearch;
+            return matchesCategory && matchesSearch;
         });
 
         if (updateUrl) {
@@ -212,14 +178,9 @@ class AppGallery {
     applyFiltersFromUrl() {
         const params = new URLSearchParams(window.location.search);
         const query = params.get('q') || '';
-        const type = params.get('type') || 'all';
         const category = params.get('category') || 'all';
 
         this.elements.searchInput.value = query;
-
-        if (this.elements.typeFilter) {
-            this.elements.typeFilter.value = this.isValidSelectValue(this.elements.typeFilter, type) ? type : 'all';
-        }
 
         this.elements.categoryFilter.value = this.isValidSelectValue(this.elements.categoryFilter, category) ? category : 'all';
     }
@@ -232,11 +193,9 @@ class AppGallery {
         const params = url.searchParams;
 
         const query = this.elements.searchInput.value.trim();
-        const type = this.elements.typeFilter ? this.elements.typeFilter.value : 'all';
         const category = this.elements.categoryFilter.value;
 
         this.setQueryParam(params, 'q', query);
-        this.setQueryParam(params, 'type', type, 'all');
         this.setQueryParam(params, 'category', category, 'all');
 
         const nextUrl = `${url.pathname}${params.toString() ? `?${params.toString()}` : ''}${url.hash}`;
@@ -263,29 +222,6 @@ class AppGallery {
     }
 
     /**
-     * Switch between grid and compact card views
-     */
-    setView(view) {
-        if (this.viewMode === view) return;
-
-        this.viewMode = view;
-        localStorage.setItem('serieworks-view', view);
-        this.updateViewToggle();
-        this.renderApps();
-    }
-
-    /**
-     * Reflect the current view mode on the toggle buttons
-     */
-    updateViewToggle() {
-        const isGrid = this.viewMode === 'grid';
-        this.elements.viewGrid.classList.toggle('active', isGrid);
-        this.elements.viewGrid.setAttribute('aria-pressed', String(isGrid));
-        this.elements.viewCompact.classList.toggle('active', !isGrid);
-        this.elements.viewCompact.setAttribute('aria-pressed', String(!isGrid));
-    }
-
-    /**
      * Render apps to the grid
      */
     renderApps() {
@@ -293,7 +229,6 @@ class AppGallery {
 
         // Clear existing content
         this.elements.grid.innerHTML = '';
-        this.elements.grid.classList.toggle('grid-compact', this.viewMode === 'compact');
 
         // Show no results message if needed
         if (this.filteredApps.length === 0) {
@@ -305,52 +240,11 @@ class AppGallery {
         const fragment = document.createDocumentFragment();
         
         this.filteredApps.forEach(app => {
-            const card = this.viewMode === 'compact'
-                ? this.createCompactCard(app)
-                : this.createAppCard(app);
-            fragment.appendChild(card);
+            fragment.appendChild(this.createCompactCard(app));
         });
 
         this.elements.grid.appendChild(fragment);
         this.setupStoreBadgeHandlers();
-    }
-
-    /**
-     * Create a single app card element
-     */
-    createAppCard(app) {
-        const card = document.createElement('div');
-        card.className = `card card-type-${app.type}`;
-        
-        const imageData = this.getCardImageData(app);
-        const categoryClass = `card-category ${app.category}`;
-        const categoryDisplay = this.formatCategoryName(app.category);
-        const cardImageClass = imageData.isFavicon ? 'card-image website-favicon-shell' : 'card-image';
-        const imageClass = imageData.isFavicon ? 'website-favicon-image' : '';
-        const safePlaceholderImage = this.escapeHtml(this.config.ui.placeholderImage);
-
-        card.innerHTML = `
-            <div class="${cardImageClass}">
-                <img src="${this.escapeHtml(imageData.src)}" 
-                     class="${imageClass}"
-                     alt="${this.escapeHtml(app.title)} screenshot" 
-                     onerror="this.onerror=null;this.src='${safePlaceholderImage}';this.classList.remove('website-favicon-image');this.parentElement.classList.remove('website-favicon-shell');" 
-                     ${this.config.features.enableLazyLoading ? 'loading="lazy"' : ''} />
-            </div>
-            <div class="card-content">
-                <div class="card-meta">
-                    <div class="${categoryClass}">${categoryDisplay}</div>
-                    ${this.createTypeBadge(app.type)}
-                </div>
-                <div class="card-title" title="${this.escapeHtml(app.title)}">${this.escapeHtml(app.title)}</div>
-                <div class="card-desc" title="${this.escapeHtml(app.description)}">${this.escapeHtml(app.description)}</div>
-                <div class="card-links">
-                    ${this.createCardLinks(app)}
-                </div>
-            </div>
-        `;
-
-        return card;
     }
 
     /**
@@ -359,7 +253,7 @@ class AppGallery {
      */
     createCompactCard(app) {
         const card = document.createElement('div');
-        card.className = `card-compact card-type-${app.type}`;
+        card.className = 'card-compact';
 
         const imageData = this.getCardImageData(app);
         const categoryClass = `card-category ${app.category}`;
@@ -377,11 +271,14 @@ class AppGallery {
                 <div class="card-compact-header">
                     <span class="card-compact-title" title="${this.escapeHtml(app.title)}">${this.escapeHtml(app.title)}</span>
                     <div class="${categoryClass}">${categoryDisplay}</div>
+                    <div class="card-compact-panel">
+                        <div class="card-compact-fulldesc">${this.escapeHtml(app.description)}</div>
+                        <div class="card-compact-links">
+                            ${this.createCardLinks(app)}
+                        </div>
+                    </div>
                 </div>
-                <div class="card-compact-desc" title="${this.escapeHtml(app.description)}">${this.escapeHtml(app.description)}</div>
-                <div class="card-compact-links">
-                    ${this.createCardLinks(app)}
-                </div>
+                <div class="card-compact-desc">${this.escapeHtml(app.description)}</div>
             </div>
         `;
 
@@ -389,21 +286,9 @@ class AppGallery {
     }
 
     /**
-     * Create a card type badge
-     */
-    createTypeBadge(type) {
-        const label = type === 'website' ? 'Website' : 'App';
-        return `<span class="card-kind card-kind-${type}">${label}</span>`;
-    }
-
-    /**
-     * Create card action links based on record type
+     * Create card store badges
      */
     createCardLinks(app) {
-        if (app.type === 'website') {
-            return this.createWebsiteLink(app.websiteUrl, app.websiteLabel);
-        }
-
         return `${this.createStoreBadge('appStore', app.appStore)}${this.createStoreBadge('googlePlay', app.playStore, app.title)}`;
     }
 
@@ -431,66 +316,14 @@ class AppGallery {
     }
 
     /**
-     * Create website action button
-     */
-    createWebsiteLink(url, label) {
-        const safeLabel = this.escapeHtml(label || 'Visit Website');
-        const isActive = url && url !== '#';
-
-        if (!isActive) {
-            return `<span class="website-link-button disabled" aria-disabled="true">${safeLabel}</span>`;
-        }
-
-        return `<a href="${this.escapeHtml(url)}" target="_blank" rel="noopener noreferrer" class="website-link-button">${safeLabel}</a>`;
-    }
-
-    /**
      * Get app image with fallback
      */
     getCardImageData(app) {
         if (app.image && app.image.trim() !== '' && app.image !== '#') {
-            return {
-                src: app.image,
-                isFavicon: false
-            };
+            return { src: app.image };
         }
 
-        if (app.type === 'website') {
-            const faviconUrl = this.getWebsiteFaviconUrl(app.websiteUrl);
-            if (faviconUrl) {
-                return {
-                    src: faviconUrl,
-                    isFavicon: true
-                };
-            }
-        }
-
-        return {
-            src: this.config.ui.placeholderImage,
-            isFavicon: false
-        };
-    }
-
-    /**
-     * Build a favicon URL from website URL
-     */
-    getWebsiteFaviconUrl(websiteUrl) {
-        if (!websiteUrl || websiteUrl === '#') {
-            return null;
-        }
-
-        try {
-            const normalizedUrl = /^https?:\/\//i.test(websiteUrl) ? websiteUrl : `https://${websiteUrl}`;
-            const parsedUrl = new URL(normalizedUrl);
-
-            if (!['http:', 'https:'].includes(parsedUrl.protocol)) {
-                return null;
-            }
-
-            return `https://www.google.com/s2/favicons?domain=${encodeURIComponent(parsedUrl.hostname)}&sz=256`;
-        } catch (error) {
-            return null;
-        }
+        return { src: this.config.ui.placeholderImage };
     }
 
     /**

@@ -74,11 +74,18 @@ document.addEventListener('DOMContentLoaded', function() {
     // Dark mode toggle
     const themeToggle = document.querySelector('.theme-toggle');
     if (themeToggle) {
-        themeToggle.setAttribute('aria-pressed', String(document.documentElement.classList.contains('dark')));
+        const themeLabel = themeToggle.querySelector('.theme-toggle-label');
+        const updateThemeToggle = (isDark) => {
+            themeToggle.setAttribute('aria-pressed', String(isDark));
+            if (themeLabel) {
+                themeLabel.textContent = isDark ? 'Light mode' : 'Dark mode';
+            }
+        };
+        updateThemeToggle(document.documentElement.classList.contains('dark'));
         themeToggle.addEventListener('click', function() {
             const isDark = document.documentElement.classList.toggle('dark');
             localStorage.setItem('serieworks-theme', isDark ? 'dark' : 'light');
-            themeToggle.setAttribute('aria-pressed', String(isDark));
+            updateThemeToggle(isDark);
         });
     }
 
