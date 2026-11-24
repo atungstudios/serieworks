@@ -1,7 +1,8 @@
 // Shared navigation and layout components
 
-// Apply saved theme immediately (this script loads synchronously in <head>)
-if (localStorage.getItem('serieworks-theme') === 'dark') {
+// Apply theme before paint (this script loads synchronously in <head>).
+// Dark mode is the default unless the visitor explicitly chose light.
+if (localStorage.getItem('serieworks-theme') !== 'light') {
     document.documentElement.classList.add('dark');
 }
 
