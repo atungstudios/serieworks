@@ -404,7 +404,30 @@ class AppGallery {
             return this.createWebsiteLink(app.websiteUrl, app.websiteLabel);
         }
 
-        return `${this.createStoreBadge('appStore', app.appStore)}${this.createStoreBadge('googlePlay', app.playStore)}`;
+        return `${this.createStoreBadge('appStore', app.appStore)}${this.createStoreBadge('googlePlay', app.playStore, app.title)}`;
+    }
+
+    /**
+     * Build a pre-filled Gmail compose URL for beta test applications
+     */
+    buildBetaComposeUrl(appTitle) {
+        const subject = `Beta testing: ${appTitle}`;
+        const body = [
+            `Hi! I'd like to beta test ${appTitle} on Android.`,
+            '',
+            'My Google account email: ',
+            ''
+        ].join('\n');
+
+        const params = new URLSearchParams({
+            view: 'cm',
+            fs: '1',
+            to: 'serieworks@gmail.com',
+            su: subject,
+            body: body
+        });
+
+        return `https://mail.google.com/mail/?${params.toString()}`;
     }
 
     /**
@@ -494,7 +517,7 @@ class AppGallery {
     /**
      * Create store badge HTML
      */
-    createStoreBadge(storeType, link) {
+    createStoreBadge(storeType, link, appTitle) {
         const badges = this.config.storeBadges || {
             appStore: { image: 'assets/app-store-badge.svg', altText: 'Download on the App Store' },
             googlePlay: { image: 'assets/google-play-badge.svg', altText: 'Get it on Google Play' }
@@ -503,8 +526,21 @@ class AppGallery {
         const badge = badges[storeType];
         if (!badge) return '';
         
-        // Show badge even if link is placeholder, but make it non-functional
         const isActive = link && link !== '#';
+
+        // Apps not on Google Play yet can be beta tested instead
+        if (!isActive && storeType === 'googlePlay' && appTitle) {
+            const composeUrl = this.buildBetaComposeUrl(appTitle);
+            return `<span class="store-badge-beta-wrap"><img src="${badge.image}" 
+                         alt="Not on Google Play yet - apply for beta testing" 
+                         class="store-badge beta" 
+                         data-link="${this.escapeHtml(composeUrl)}"
+                         tabindex="0"
+                         role="button"
+                         aria-label="Not on Google Play yet - apply for beta testing" /></span>`;
+        }
+        
+        // Show badge even if link is placeholder, but make it non-functional
         const cursorStyle = isActive ? '' : 'style="cursor: not-allowed; opacity: 0.6;"';
         const dataLink = isActive ? `data-link="${this.escapeHtml(link)}"` : '';
         
@@ -543,6 +579,15 @@ class AppGallery {
      * Handle store badge clicks
      */
     handleStoreBadgeClick(event) {
+        // Beta badges open a pre-filled Gmail compose window
+        if (event.target.classList.contains('beta')) {
+            const composeUrl = event.target.getAttribute('data-link');
+            if (composeUrl) {
+                window.open(composeUrl, '_blank', 'noopener,noreferrer');
+            }
+            return;
+        }
+
         // Only handle clicks for active badges
         if (event.target.classList.contains('inactive')) {
             return;

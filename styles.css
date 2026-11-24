@@ -410,7 +410,23 @@ body:has(.card-compact:focus-within) .page-dim {
         text-align: left;
         font-size: 1rem;
     }
-}
+    button.theme-toggle {
+        width: 100%;
+        height: auto;
+        justify-content: flex-start;
+        gap: 10px;
+        border: none;
+        background: none;
+        padding: 12px 16px;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 500;
+        color: #6b7280;
+        text-align: left;
+    }
+    button.theme-toggle .theme-toggle-label {
+        display: inline;
+    }}
 
 @media (max-width: 900px) {
     .container {
@@ -666,11 +682,48 @@ body:has(.card-compact:focus-within) .page-dim {
     cursor: pointer;
     padding: 0;
     border: none;
-    vertical-align: top;
-}
+    vertical-align: top;}
 
 .store-badge[alt*="App Store"] {
     height: 34px;
+}
+
+/* Disabled Play badges link to the beta program */
+.store-badge.beta {
+    opacity: 0.75;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+.store-badge.beta:hover,
+.store-badge.beta:focus-visible {
+    opacity: 1;
+}
+
+/* Permanent diagonal beta banner across the badge corner */
+.store-badge-beta-wrap {
+    position: relative;
+    display: inline-block;
+    line-height: 0;
+    overflow: hidden;
+    border-radius: 4px;
+}
+.store-badge-beta-wrap::after {
+    content: "BETA";
+    position: absolute;
+    top: 7px;
+    right: -24px;
+    width: 76px;
+    padding: 1px 0;
+    transform: rotate(45deg);
+    background: #dc2626;
+    color: #ffffff;
+    font-size: 0.5rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    line-height: 1.4;
+    text-align: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    pointer-events: none;
 }
 
 .store-badge[alt*="Google Play"] {
@@ -1074,6 +1127,9 @@ body:has(.card-compact:focus-within) .page-dim {
 .theme-toggle .icon-sun {
     display: none;
 }
+.theme-toggle .theme-toggle-label {
+    display: none;
+}
 html.dark .theme-toggle .icon-moon {
     display: none;
 }
@@ -1116,6 +1172,11 @@ html.dark .theme-toggle:hover {
     html.dark .header-nav {
         background: #1f1729;
         box-shadow: -2px 0 8px rgba(0, 0, 0, 0.4);
+    }
+    html.dark .theme-toggle {
+        background: none;
+        border: none;
+        color: #a79ec0;
     }
 }
 
@@ -1291,4 +1352,49 @@ html.dark .qr-modal-body p {
 }
 html.dark .qr-modal-links {
     border-top-color: #3a2d52;
+}
+
+/* === Beta Testing Page === */
+.beta-app-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 8px 0 24px;
+}
+.beta-row {
+    animation: none;
+    opacity: 1;
+    transform: none;
+}
+.beta-row .card-compact-header {
+    align-items: center;
+}
+.beta-apply-button {
+    flex-shrink: 0;
+    width: auto;
+    height: 32px;
+    padding: 0 14px;
+    font-size: 0.8rem;
+}
+.beta-fallback {
+    font-size: 0.9rem;
+}
+.beta-copy-email {
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    color: #667eea;
+    text-decoration: underline;
+    font-weight: 600;
+    cursor: pointer;
+}
+.beta-copy-email:hover {
+    color: #764ba2;
+}
+html.dark .beta-copy-email {
+    color: #b79ef5;
+}
+html.dark .beta-copy-email:hover {
+    color: #d3c2fa;
 }
