@@ -289,7 +289,7 @@ class AppGallery {
      * Create card store badges
      */
     createCardLinks(app) {
-        return `${this.createStoreBadge('appStore', app.appStore)}${this.createStoreBadge('googlePlay', app.playStore, app.title)}`;
+        return `${this.createStoreBadge('appStore', app.appStore, app)}${this.createStoreBadge('googlePlay', app.playStore, app)}`;
     }
 
     /**
@@ -350,7 +350,7 @@ class AppGallery {
     /**
      * Create store badge HTML
      */
-    createStoreBadge(storeType, link, appTitle) {
+    createStoreBadge(storeType, link, app) {
         const badges = this.config.storeBadges || {
             appStore: { image: 'assets/app-store-badge.svg', altText: 'Download on the App Store' },
             googlePlay: { image: 'assets/google-play-badge.svg', altText: 'Get it on Google Play' }
@@ -361,9 +361,9 @@ class AppGallery {
         
         const isActive = link && link !== '#';
 
-        // Apps not on Google Play yet can be beta tested instead
-        if (!isActive && storeType === 'googlePlay' && appTitle) {
-            const composeUrl = this.buildBetaComposeUrl(appTitle);
+        // Apps with a Play Console testing track offer beta sign-up
+        if (!isActive && storeType === 'googlePlay' && app && app.androidBeta) {
+            const composeUrl = this.buildBetaComposeUrl(app.title);
             return `<span class="store-badge-beta-wrap"><img src="${badge.image}" 
                          alt="Not on Google Play yet - apply for beta testing" 
                          class="store-badge beta" 
@@ -371,6 +371,14 @@ class AppGallery {
                          tabindex="0"
                          role="button"
                          aria-label="Not on Google Play yet - apply for beta testing" /></span>`;
+        }
+
+        // Other apps without a Play link are simply coming soon
+        if (!isActive && storeType === 'googlePlay') {
+            return `<span class="store-badge-soon-wrap"><img src="${badge.image}" 
+                         alt="Coming soon on Google Play" 
+                         class="store-badge inactive" 
+                         style="cursor: not-allowed; opacity: 0.6;" /></span>`;
         }
         
         // Show badge even if link is placeholder, but make it non-functional

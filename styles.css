@@ -560,23 +560,24 @@ body:has(.card-compact:focus-within) .page-dim {
     opacity: 1;
 }
 
-/* Permanent diagonal beta banner across the badge corner */
-.store-badge-beta-wrap {
+/* Permanent diagonal banner across the badge corner: red BETA for apps
+   open for testing, grey SOON for apps not yet set up on Play */
+.store-badge-beta-wrap,
+.store-badge-soon-wrap {
     position: relative;
     display: inline-block;
     line-height: 0;
     overflow: hidden;
     border-radius: 4px;
 }
-.store-badge-beta-wrap::after {
-    content: "BETA";
+.store-badge-beta-wrap::after,
+.store-badge-soon-wrap::after {
     position: absolute;
     top: 7px;
     right: -24px;
     width: 76px;
     padding: 1px 0;
     transform: rotate(45deg);
-    background: #dc2626;
     color: #ffffff;
     font-size: 0.5rem;
     font-weight: 700;
@@ -585,6 +586,14 @@ body:has(.card-compact:focus-within) .page-dim {
     text-align: center;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
     pointer-events: none;
+}
+.store-badge-beta-wrap::after {
+    content: "BETA";
+    background: #dc2626;
+}
+.store-badge-soon-wrap::after {
+    content: "SOON";
+    background: #6b7280;
 }
 
 .store-badge[alt*="Google Play"] {

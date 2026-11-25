@@ -68,7 +68,7 @@
             return response.json();
         })
         .then(apps => {
-            const appsToList = apps.filter(app => app.status === 'production' && app.type !== 'website');
+            const appsToList = apps.filter(app => app.status === 'production' && app.androidBeta);
             if (appsToList.length === 0) {
                 list.innerHTML = '<p>No apps are open for testing right now. Check back soon!</p>';
                 return;

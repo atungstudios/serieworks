@@ -113,6 +113,7 @@
     "description": "Create custom workouts, plan your week, and track progress. Beautiful interface, offline support, unlimited exercises. Your personal fitness planner.",
     "appStore": "https://apps.apple.com/us/app/yuusha/id6754209598",
     "playStore": "#",
+    "androidBeta": true,
     "image": "assets/app_img/yuusha.png",
     "status": "production"
   },
