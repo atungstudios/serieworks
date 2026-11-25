@@ -45,12 +45,26 @@
     <main>
         <div class="container">
             <div class="feature-banner">
-                <img src="assets/feature.jpeg" 
-                     alt="Illustration of a child sleeping peacefully beside a giant fluffy cat" 
+                <img id="featureBannerImg"
+                     src="assets/feature/feature-01.jpg" 
+                     alt="Serieworks feature illustration" 
                      width="1500" 
                      height="500" />
                 <span class="feature-banner-text">Apps for Life.</span>
             </div>
+            <script>
+            (function () {
+                const features = [
+                    'feature-01.jpg', 'feature-02.jpg', 'feature-03.jpg', 'feature-04.jpg',
+                    'feature-05.jpg', 'feature-06.jpg', 'feature-07.jpg', 'feature-08.jpg',
+                    'feature-09.jpg', 'feature-10.jpg', 'feature-11.jpg', 'feature-12.jpg'
+                ];
+                const img = document.getElementById('featureBannerImg');
+                if (img) {
+                    img.src = 'assets/feature/' + features[Math.floor(Math.random() * features.length)];
+                }
+            })();
+            </script>
             <div class="controls">
                 <input type="text" 
                        id="searchInput" 
